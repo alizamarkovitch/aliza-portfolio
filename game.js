@@ -1,75 +1,91 @@
-// Initialize Kaboom with debug mode on
-kaboom({
-  debug: true,
+class MainScene extends Phaser.Scene {
+  constructor() {
+    super({ key: "MainScene" });
+  }
+
+  preload() {
+    // Load the sprite sheet
+    this.load.spritesheet("cat", "assets/cat22.png", {
+      frameWidth: 32, // Adjust these values based on your actual sprite size
+      frameHeight: 32,
+      startFrame: 0,
+      endFrame: 15, // 4x4 sprite sheet = 16 frames
+    });
+  }
+
+  create() {
+    // Create the floor
+    this.floor = this.add.rectangle(400, 576, 800, 48, 0x808080);
+    this.physics.add.existing(this.floor, true); // true makes it static
+
+    // Create the player
+    this.player = this.physics.add.sprite(400, 502, "cat");
+    this.player.setCollideWorldBounds(true);
+
+    // Create animations
+    this.anims.create({
+      key: "idle",
+      frames: [{ key: "cat", frame: 0 }],
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "moveRight",
+      frames: [{ key: "cat", frame: 1 }],
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "moveLeft",
+      frames: [{ key: "cat", frame: 3 }],
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    // Set up collision between player and floor
+    this.physics.add.collider(this.player, this.floor);
+
+    // Set up cursor keys for input
+    this.cursors = this.input.keyboard.createCursorKeys();
+  }
+
+  update() {
+    // Handle movement
+    if (this.cursors.left.isDown) {
+      this.player.setVelocityX(-200);
+      this.player.anims.play("moveLeft", true);
+    } else if (this.cursors.right.isDown) {
+      this.player.setVelocityX(200);
+      this.player.anims.play("moveRight", true);
+    } else {
+      this.player.setVelocityX(0);
+      this.player.anims.play("idle", true);
+    }
+
+    // Handle jumping
+    if (this.cursors.space.isDown && this.player.body.touching.down) {
+      this.player.setVelocityY(-400);
+    }
+  }
+}
+
+// Game configuration
+const config = {
+  type: Phaser.AUTO,
   width: 800,
   height: 600,
-  background: [0, 0, 255],
-});
-
-// Load the cat sprite sheet
-loadSprite("cat", "assets/cat22.png", {
-  sliceX: 4, // 4 columns
-  sliceY: 4, // 4 rows
-  anims: {
-    idle: 0, // Top-left sprite
-    moveRight: 1, // Second sprite from left in top row
-    idle2: 2, // Third sprite from left in top row
-    moveLeft: 3, // Fourth sprite from left in top row
-  },
-});
-
-// Just add a box and floor with controls
-scene("game", () => {
-  // Add the floor first
-  const floor = add([
-    rect(width(), 48),
-    pos(0, height() - 48),
-    area(),
-    body({ isStatic: true }),
-    color(128, 128, 128),
-  ]);
-
-  // Add our cat player - positioned just above the floor
-  const player = add([
-    sprite("cat"), // Use the cat sprite instead of rectangle
-    pos(400, height() - 98),
-    area(),
-    body(),
-    {
-      // Add a direction property to track which way the cat is facing
-      direction: "right",
-      isMoving: false,
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 300 },
+      debug: true,
     },
-  ]);
+  },
+  scene: MainScene,
+  backgroundColor: "#0000ff",
+};
 
-  // Set initial animation
-  player.play("idle");
-
-  // Add movement controls
-  onKeyDown("left", () => {
-    player.move(-200, 0);
-    player.direction = "left";
-    player.play("moveLeft");
-  });
-
-  onKeyDown("right", () => {
-    player.move(200, 0);
-    player.direction = "right";
-    player.play("moveRight");
-  });
-
-  // When no movement keys are pressed, return to idle
-  onKeyRelease(["left", "right"], () => {
-    player.play("idle");
-  });
-
-  // Add jump with space
-  onKeyPress("space", () => {
-    if (player.isGrounded()) {
-      player.jump(400);
-    }
-  });
-});
-
-// Start the game
-go("game");
+// Create and start the game
+const game = new Phaser.Game(config);

@@ -1,0 +1,29 @@
+{
+  "name": "fungame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/game.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeser/fungame.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codeser/fungame/issues"
+  },
+  "homepage": "https://github.com/codeser/fungame#readme",
+  "dependencies": {
+    "phaser": "^3.70.0"
+  },
+  "devDependencies": {
+    "vite": "^4.5.2"
+  }
+}
