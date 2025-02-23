@@ -20,6 +20,8 @@ class MainScene extends Phaser.Scene {
 
     // Load the background image
     this.load.image("background", "src/assets/bg.png");
+    // Load the cloud image
+    this.load.image("cloud", "src/assets/cloud.png");
   }
 
   createGroundEnemy(x, y) {
@@ -65,6 +67,17 @@ class MainScene extends Phaser.Scene {
     return projectile;
   }
 
+  createCloud(x, y) {
+    const scale = Phaser.Math.FloatBetween(0.8, 1.5); // Slightly smaller size range
+    const cloud = this.add.image(x, y, "cloud");
+    cloud.setScale(scale);
+    cloud.setAlpha(0.7);
+    cloud.setScrollFactor(1, 0); // Match background scroll factor
+    cloud.setDepth(-1);
+    cloud.baseSpeed = Phaser.Math.FloatBetween(-8, -4); // Even slower movement
+    return cloud;
+  }
+
   create() {
     // Get the game dimensions
     const gameHeight = this.scale.height;
@@ -76,6 +89,7 @@ class MainScene extends Phaser.Scene {
       bg.setOrigin(0, 0);
       bg.setDisplaySize(gameWidth, gameHeight);
       bg.setScrollFactor(1, 0);
+      bg.setDepth(-2); // Place background behind everything
       this.backgrounds.push(bg);
     }
 
@@ -205,6 +219,18 @@ class MainScene extends Phaser.Scene {
 
     // Move ground with camera
     this.ground.setScrollFactor(1, 0);
+
+    // Create clouds group
+    this.cloudGroup = this.add.group();
+
+    // Create initial clouds at random positions with better spacing
+    for (let i = 0; i < 3; i++) {
+      // Reduced initial count
+      const x = Phaser.Math.Between(0, gameWidth * 3);
+      const y = Phaser.Math.Between(50, gameHeight / 2);
+      const cloud = this.createCloud(x, y);
+      this.cloudGroup.add(cloud);
+    }
   }
 
   handlePlayerDeath() {
@@ -374,6 +400,41 @@ class MainScene extends Phaser.Scene {
     if (this.player.y > this.scale.height + 200) {
       this.player.setPosition(200, this.groundY - 32);
       this.player.setVelocity(0, 0);
+    }
+
+    // Update clouds
+    this.cloudGroup.children.iterate((cloud) => {
+      if (cloud) {
+        // Move cloud based on its base speed
+        cloud.x += cloud.baseSpeed * (1 / 60); // Assuming 60 FPS
+
+        // If cloud moves off screen to the left, destroy it
+        // Add more buffer before destroying (2 * cloud width)
+        if (cloud.x < cameraX - cloud.width * cloud.scale * 2) {
+          cloud.destroy();
+        }
+      }
+    });
+
+    // Spawn new clouds with better spacing
+    if (this.cloudGroup.children.size < 3) {
+      // Maintain fewer clouds
+      const lastCloud = this.cloudGroup.children
+        .getArray()
+        .reduce((rightmost, cloud) => {
+          return !rightmost || cloud.x > rightmost.x ? cloud : rightmost;
+        }, null);
+
+      const spawnX = lastCloud
+        ? Math.max(
+            lastCloud.x + Phaser.Math.Between(600, 800),
+            cameraX + gameWidth + 100
+          )
+        : cameraX + gameWidth + 100;
+
+      const spawnY = Phaser.Math.Between(50, this.scale.height / 2.5);
+      const cloud = this.createCloud(spawnX, spawnY);
+      this.cloudGroup.add(cloud);
     }
   }
 }
