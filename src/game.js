@@ -5,22 +5,50 @@ class MainScene extends Phaser.Scene {
   }
 
   preload() {
-    // Load the sprite sheet
+    // Load the sprite sheet with correct frame size
     this.load.spritesheet("cat", "/src/assets/cat22.png", {
-      frameWidth: 32, // Adjust these values based on your actual sprite size
-      frameHeight: 32,
+      frameWidth: 64, // Correct sprite size
+      frameHeight: 64,
       startFrame: 0,
-      endFrame: 15, // 4x4 sprite sheet = 16 frames
+      endFrame: 15,
     });
   }
 
   create() {
+    // Make game fullscreen when clicking/touching
+    this.input.on("pointerdown", () => {
+      if (this.scale.isFullscreen) {
+        this.scale.stopFullscreen();
+      } else {
+        this.scale.startFullscreen();
+      }
+    });
+
+    // Get the game height for positioning
+    const gameHeight = this.scale.height;
+    const gameWidth = this.scale.width;
+
+    // Set up sprite scale
+    const SPRITE_SCALE = 2; // Reduced scale since sprites are bigger
+    const SCALED_SPRITE_HEIGHT = 64 * SPRITE_SCALE; // Original height * scale
+
     // Create the floor
-    this.floor = this.add.rectangle(400, 576, 800, 48, 0x808080);
+    const FLOOR_HEIGHT = 96;
+    const floorY = gameHeight - FLOOR_HEIGHT / 2;
+    this.floor = this.add.rectangle(
+      gameWidth / 2,
+      floorY,
+      gameWidth,
+      FLOOR_HEIGHT,
+      0x808080
+    );
     this.physics.add.existing(this.floor, true); // true makes it static
 
-    // Create the player
-    this.player = this.physics.add.sprite(400, 502, "cat");
+    // Create the player with larger size
+    // Position the player above the floor by half the scaled sprite height
+    const playerY = floorY - FLOOR_HEIGHT / 2 - SCALED_SPRITE_HEIGHT / 2;
+    this.player = this.physics.add.sprite(gameWidth / 2, playerY, "cat");
+    this.player.setScale(SPRITE_SCALE);
     this.player.setCollideWorldBounds(true);
 
     // Create animations
@@ -55,10 +83,10 @@ class MainScene extends Phaser.Scene {
   update() {
     // Handle movement
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-200);
+      this.player.setVelocityX(-300);
       this.player.anims.play("moveLeft", true);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(200);
+      this.player.setVelocityX(300);
       this.player.anims.play("moveRight", true);
     } else {
       this.player.setVelocityX(0);
@@ -67,7 +95,7 @@ class MainScene extends Phaser.Scene {
 
     // Handle jumping
     if (this.cursors.space.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-400);
+      this.player.setVelocityY(-600);
     }
   }
 }
@@ -75,12 +103,17 @@ class MainScene extends Phaser.Scene {
 // Game configuration
 const config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  scale: {
+    mode: Phaser.Scale.RESIZE,
+    parent: "game",
+    width: "100%",
+    height: "100%",
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 300 },
+      gravity: { y: 600 },
       debug: true,
     },
   },
