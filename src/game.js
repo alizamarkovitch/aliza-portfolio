@@ -3,6 +3,7 @@ class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: "MainScene" });
     this.backgrounds = [];
+    this.enemies = []; // Store enemies
   }
 
   preload() {
@@ -18,6 +19,15 @@ class MainScene extends Phaser.Scene {
     this.load.image("background", "src/assets/bg.png");
   }
 
+  createEnemy(x, y) {
+    const enemy = this.add.rectangle(x, y, 32, 32, 0xff0000);
+    this.physics.add.existing(enemy);
+    enemy.body.setVelocityX(-100);
+    enemy.body.setCollideWorldBounds(false);
+    enemy.body.setImmovable(false); // Allow enemy to be affected by gravity
+    return enemy;
+  }
+
   create() {
     // Get the game dimensions
     const gameHeight = this.scale.height;
@@ -28,7 +38,7 @@ class MainScene extends Phaser.Scene {
       const bg = this.add.image(gameWidth * i, 0, "background");
       bg.setOrigin(0, 0);
       bg.setDisplaySize(gameWidth, gameHeight);
-      bg.setScrollFactor(1, 0); // Scroll horizontally with camera, but not vertically
+      bg.setScrollFactor(1, 0);
       this.backgrounds.push(bg);
     }
 
@@ -36,21 +46,25 @@ class MainScene extends Phaser.Scene {
     const groundHeight = 180;
     this.groundY = gameHeight - 100;
 
-    // Create a series of connected ground segments
-    this.grounds = [];
-    for (let i = 0; i < 5; i++) {
-      const ground = this.add.rectangle(
-        gameWidth * i,
-        this.groundY,
-        gameWidth,
-        groundHeight,
-        0x00ff00,
-        0.0
-      );
-      ground.setOrigin(0, 0);
-      ground.setScrollFactor(1, 0); // Scroll horizontally with camera, but not vertically
-      this.physics.add.existing(ground, true);
-      this.grounds.push(ground);
+    // Create a single long ground for better collision
+    this.ground = this.add.rectangle(
+      0,
+      this.groundY,
+      gameWidth * 5, // Make it extra wide
+      groundHeight,
+      0x00ff00,
+      0.0
+    );
+    this.ground.setOrigin(0, 0);
+    this.physics.add.existing(this.ground, true); // true makes it static
+
+    // Create enemies group
+    this.enemyGroup = this.add.group();
+
+    // Spawn initial enemies
+    for (let i = 0; i < 3; i++) {
+      const enemy = this.createEnemy(gameWidth + i * 400, this.groundY - 16);
+      this.enemyGroup.add(enemy);
     }
 
     // Create the player
@@ -80,9 +94,21 @@ class MainScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // Set up collisions between player and all ground segments
-    this.grounds.forEach((ground) => {
-      this.physics.add.collider(this.player, ground);
+    // Add collision handlers
+    this.physics.add.collider(this.player, this.ground);
+    this.physics.add.collider(this.enemyGroup, this.ground);
+
+    // Handle enemy collision
+    this.physics.add.overlap(this.player, this.enemyGroup, (player, enemy) => {
+      // Check if player is above the enemy
+      if (player.body.touching.down && enemy.body.touching.up) {
+        // Player jumped on enemy
+        enemy.destroy();
+        player.setVelocityY(-300); // Bounce player up
+      } else {
+        // Player hit enemy from side or below
+        this.handlePlayerDeath();
+      }
     });
 
     // Set up cursor keys for input
@@ -90,17 +116,27 @@ class MainScene extends Phaser.Scene {
 
     // Set up camera to follow player only horizontally
     this.cameras.main.startFollow(this.player, {
-      lerpX: 0.1, // Smooth follow horizontally
-      lerpY: 0, // No vertical follow
-      offsetX: -200, // Keep player slightly to the left of center
+      lerpX: 0.1,
+      lerpY: 0,
+      offsetX: -200,
     });
     this.cameras.main.setFollowOffset(0, -this.cameras.main.height / 2);
-    this.cameras.main.setLerp(0.1, 0); // Smooth horizontal follow, no vertical
+    this.cameras.main.setLerp(0.1, 0);
     this.cameras.main.setBounds(0, 0, Number.MAX_SAFE_INTEGER, gameHeight);
+
+    // Move ground with camera
+    this.ground.setScrollFactor(1, 0);
+  }
+
+  handlePlayerDeath() {
+    // Reset player position
+    this.player.setPosition(200, this.groundY - 32);
+    this.player.setVelocity(0, 0);
   }
 
   update() {
     const gameWidth = this.scale.width;
+    const cameraX = this.cameras.main.scrollX;
 
     // Handle movement
     if (this.cursors.left.isDown) {
@@ -116,11 +152,10 @@ class MainScene extends Phaser.Scene {
 
     // Handle jumping
     if (this.cursors.space.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-500); // Slightly reduced jump height
+      this.player.setVelocityY(-500);
     }
 
     // Infinite background scrolling
-    const cameraX = this.cameras.main.scrollX;
     this.backgrounds.forEach((bg, i) => {
       const rightmostBg = Math.max(...this.backgrounds.map((b) => b.x));
       if (bg.x + gameWidth < cameraX) {
@@ -128,14 +163,35 @@ class MainScene extends Phaser.Scene {
       }
     });
 
-    // Update ground segments
-    this.grounds.forEach((ground, i) => {
-      const rightmostGround = Math.max(...this.grounds.map((g) => g.x));
-      if (ground.x + gameWidth < cameraX) {
-        ground.x = rightmostGround + gameWidth;
-        ground.body.position.x = rightmostGround + gameWidth;
+    // Update ground position
+    this.ground.x = cameraX;
+    this.ground.body.position.x = cameraX;
+
+    // Update enemies
+    this.enemyGroup.children.iterate((enemy) => {
+      if (enemy) {
+        // Remove enemies that are too far left
+        if (enemy.x < cameraX - 100) {
+          enemy.destroy();
+        }
       }
     });
+
+    // Spawn new enemies
+    if (this.enemyGroup.children.size < 3) {
+      const lastEnemy = this.enemyGroup.children
+        .getArray()
+        .reduce((rightmost, enemy) => {
+          return !rightmost || enemy.x > rightmost.x ? enemy : rightmost;
+        }, null);
+
+      const spawnX = lastEnemy
+        ? Math.max(lastEnemy.x + 400, cameraX + gameWidth + 100)
+        : cameraX + gameWidth + 100;
+
+      const newEnemy = this.createEnemy(spawnX, this.groundY - 16);
+      this.enemyGroup.add(newEnemy);
+    }
 
     // Reset player if they fall too far
     if (this.player.y > this.scale.height + 200) {
