@@ -6,6 +6,7 @@ class MainScene extends Phaser.Scene {
     this.enemies = [];
     this.projectiles = [];
     this.lastDirection = "right"; // Track player direction for shooting
+    this.shootDirection = { x: 1, y: 0 }; // Track shooting direction
   }
 
   preload() {
@@ -45,11 +46,22 @@ class MainScene extends Phaser.Scene {
     return enemy;
   }
 
+  createPlatform(x, y, width) {
+    const platform = this.add.rectangle(x, y, width, 20, 0x8b4513); // Brown color
+    this.physics.add.existing(platform, true);
+    platform.setScrollFactor(1, 0);
+    return platform;
+  }
+
   createProjectile(x, y, direction) {
-    const projectile = this.add.circle(x, y, 8, 0xffff00); // Yellow projectile
+    const projectile = this.add.circle(x, y, 8, 0xffff00);
     this.physics.add.existing(projectile);
     projectile.body.setAllowGravity(false);
-    projectile.body.setVelocityX(direction === "right" ? 400 : -400);
+
+    // Calculate velocity based on direction
+    const speed = 400;
+    projectile.body.setVelocity(direction.x * speed, direction.y * speed);
+
     return projectile;
   }
 
@@ -82,6 +94,21 @@ class MainScene extends Phaser.Scene {
     );
     this.ground.setOrigin(0, 0);
     this.physics.add.existing(this.ground, true); // true makes it static
+
+    // Create platforms group
+    this.platformGroup = this.add.group();
+
+    // Create some platforms at different heights
+    const platformPositions = [
+      { x: gameWidth + 200, y: this.groundY - 150, width: 200 },
+      { x: gameWidth + 500, y: this.groundY - 250, width: 150 },
+      { x: gameWidth + 800, y: this.groundY - 200, width: 180 },
+    ];
+
+    platformPositions.forEach(({ x, y, width }) => {
+      const platform = this.createPlatform(x, y, width);
+      this.platformGroup.add(platform);
+    });
 
     // Create enemies group
     this.enemyGroup = this.add.group();
@@ -132,6 +159,8 @@ class MainScene extends Phaser.Scene {
     // Add collision handlers
     this.physics.add.collider(this.player, this.ground);
     this.physics.add.collider(this.enemyGroup, this.ground);
+    this.physics.add.collider(this.player, this.platformGroup);
+    this.physics.add.collider(this.enemyGroup, this.platformGroup);
 
     // Handle enemy collision
     this.physics.add.overlap(this.player, this.enemyGroup, (player, enemy) => {
@@ -156,6 +185,14 @@ class MainScene extends Phaser.Scene {
     // Set up cursor keys for input
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    // Add keys for directional shooting
+    this.shootKeys = {
+      up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP),
+      down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN),
+      left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
+      right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
+    };
+
     // Set up camera to follow player only horizontally
     this.cameras.main.startFollow(this.player, {
       lerpX: 0.1,
@@ -174,6 +211,31 @@ class MainScene extends Phaser.Scene {
     // Reset player position
     this.player.setPosition(200, this.groundY - 32);
     this.player.setVelocity(0, 0);
+  }
+
+  updateShootDirection() {
+    let dx = 0;
+    let dy = 0;
+
+    if (this.shootKeys.up.isDown) dy = -1;
+    if (this.shootKeys.down.isDown) dy = 1;
+    if (this.shootKeys.left.isDown) dx = -1;
+    if (this.shootKeys.right.isDown) dx = 1;
+
+    // If no direction keys are pressed, shoot in last movement direction
+    if (dx === 0 && dy === 0) {
+      dx = this.lastDirection === "right" ? 1 : -1;
+      dy = 0;
+    }
+
+    // Normalize the direction vector
+    const length = Math.sqrt(dx * dx + dy * dy);
+    if (length > 0) {
+      this.shootDirection = {
+        x: dx / length,
+        y: dy / length,
+      };
+    }
   }
 
   update() {
@@ -199,12 +261,15 @@ class MainScene extends Phaser.Scene {
       this.player.setVelocityY(-500);
     }
 
+    // Update shoot direction based on arrow keys
+    this.updateShootDirection();
+
     // Handle shooting
     if (Phaser.Input.Keyboard.JustDown(this.cursors.shift)) {
       const projectile = this.createProjectile(
-        this.player.x + (this.lastDirection === "right" ? 20 : -20),
-        this.player.y - 10,
-        this.lastDirection
+        this.player.x,
+        this.player.y,
+        this.shootDirection
       );
       this.projectileGroup.add(projectile);
     }
@@ -273,6 +338,36 @@ class MainScene extends Phaser.Scene {
         const flyingEnemy = this.createFlyingEnemy(spawnX, this.groundY - 200);
         this.enemyGroup.add(flyingEnemy);
       }
+    }
+
+    // Update platforms
+    this.platformGroup.children.iterate((platform) => {
+      if (platform && platform.x < cameraX - platform.width) {
+        platform.destroy();
+      }
+    });
+
+    // Spawn new platforms
+    if (this.platformGroup.children.size < 3) {
+      const lastPlatform = this.platformGroup.children
+        .getArray()
+        .reduce((rightmost, platform) => {
+          return !rightmost || platform.x > rightmost.x ? platform : rightmost;
+        }, null);
+
+      const spawnX = lastPlatform
+        ? Math.max(
+            lastPlatform.x + Phaser.Math.Between(300, 500),
+            cameraX + gameWidth + 100
+          )
+        : cameraX + gameWidth + 100;
+
+      const platform = this.createPlatform(
+        spawnX,
+        this.groundY - Phaser.Math.Between(150, 300),
+        Phaser.Math.Between(150, 250)
+      );
+      this.platformGroup.add(platform);
     }
 
     // Reset player if they fall too far
