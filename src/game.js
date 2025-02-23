@@ -2,6 +2,7 @@
 class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: "MainScene" });
+    this.backgrounds = [];
   }
 
   preload() {
@@ -22,41 +23,40 @@ class MainScene extends Phaser.Scene {
     const gameHeight = this.scale.height;
     const gameWidth = this.scale.width;
 
-    // Create world bounds much wider than the screen
-    this.physics.world.setBounds(0, 0, gameWidth * 3, gameHeight);
-
     // Create the parallax background
-    // We'll create 3 background images side by side for seamless scrolling
     for (let i = 0; i < 3; i++) {
       const bg = this.add.image(gameWidth * i, 0, "background");
       bg.setOrigin(0, 0);
-      // Scale the background to match game height while maintaining aspect ratio
       bg.setDisplaySize(gameWidth, gameHeight);
+      bg.setScrollFactor(1, 0); // Scroll horizontally with camera, but not vertically
+      this.backgrounds.push(bg);
     }
 
-    // Create the ground collision body (invisible)
-    const groundHeight = 150;
-    const ground = this.add.rectangle(
-      0,
-      gameHeight - groundHeight / 2,
-      gameWidth * 3,
-      groundHeight
-    );
-    ground.setOrigin(0, 0.5);
-    ground.visible = false; // Make it invisible since we have the background image
+    // Create the ground collision body
+    const groundHeight = 180;
+    this.groundY = gameHeight - 100;
 
-    // Add physics to ground
-    this.physics.add.existing(ground, true);
+    // Create a series of connected ground segments
+    this.grounds = [];
+    for (let i = 0; i < 5; i++) {
+      const ground = this.add.rectangle(
+        gameWidth * i,
+        this.groundY,
+        gameWidth,
+        groundHeight,
+        0x00ff00,
+        0.0
+      );
+      ground.setOrigin(0, 0);
+      ground.setScrollFactor(1, 0); // Scroll horizontally with camera, but not vertically
+      this.physics.add.existing(ground, true);
+      this.grounds.push(ground);
+    }
 
     // Create the player
     const SPRITE_SCALE = 2;
-    this.player = this.physics.add.sprite(
-      gameWidth / 2,
-      gameHeight - groundHeight - 64,
-      "cat"
-    );
+    this.player = this.physics.add.sprite(200, this.groundY - 64, "cat");
     this.player.setScale(SPRITE_SCALE);
-    this.player.setCollideWorldBounds(true);
 
     // Create animations
     this.anims.create({
@@ -80,18 +80,28 @@ class MainScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // Set up collision between player and ground
-    this.physics.add.collider(this.player, ground);
+    // Set up collisions between player and all ground segments
+    this.grounds.forEach((ground) => {
+      this.physics.add.collider(this.player, ground);
+    });
 
     // Set up cursor keys for input
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    // Set up camera to follow player
-    this.cameras.main.setBounds(0, 0, gameWidth * 3, gameHeight);
-    this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+    // Set up camera to follow player only horizontally
+    this.cameras.main.startFollow(this.player, {
+      lerpX: 0.1, // Smooth follow horizontally
+      lerpY: 0, // No vertical follow
+      offsetX: -200, // Keep player slightly to the left of center
+    });
+    this.cameras.main.setFollowOffset(0, -this.cameras.main.height / 2);
+    this.cameras.main.setLerp(0.1, 0); // Smooth horizontal follow, no vertical
+    this.cameras.main.setBounds(0, 0, Number.MAX_SAFE_INTEGER, gameHeight);
   }
 
   update() {
+    const gameWidth = this.scale.width;
+
     // Handle movement
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-300);
@@ -106,7 +116,31 @@ class MainScene extends Phaser.Scene {
 
     // Handle jumping
     if (this.cursors.space.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-600);
+      this.player.setVelocityY(-500); // Slightly reduced jump height
+    }
+
+    // Infinite background scrolling
+    const cameraX = this.cameras.main.scrollX;
+    this.backgrounds.forEach((bg, i) => {
+      const rightmostBg = Math.max(...this.backgrounds.map((b) => b.x));
+      if (bg.x + gameWidth < cameraX) {
+        bg.x = rightmostBg + gameWidth - 1;
+      }
+    });
+
+    // Update ground segments
+    this.grounds.forEach((ground, i) => {
+      const rightmostGround = Math.max(...this.grounds.map((g) => g.x));
+      if (ground.x + gameWidth < cameraX) {
+        ground.x = rightmostGround + gameWidth;
+        ground.body.position.x = rightmostGround + gameWidth;
+      }
+    });
+
+    // Reset player if they fall too far
+    if (this.player.y > this.scale.height + 200) {
+      this.player.setPosition(200, this.groundY - 64);
+      this.player.setVelocity(0, 0);
     }
   }
 }
@@ -117,7 +151,7 @@ const config = {
   parent: "game",
   width: 800,
   height: 600,
-  pixelArt: true, // Enable pixel art mode for crisp rendering
+  pixelArt: true,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -126,7 +160,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 600 },
-      debug: false,
+      debug: true, // Enable debug visualization temporarily
     },
   },
   scene: MainScene,
