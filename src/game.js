@@ -54,8 +54,8 @@ class MainScene extends Phaser.Scene {
     }
 
     // Create the player
-    const SPRITE_SCALE = 2;
-    this.player = this.physics.add.sprite(200, this.groundY - 64, "cat");
+    const SPRITE_SCALE = 1;
+    this.player = this.physics.add.sprite(200, this.groundY - 32, "cat");
     this.player.setScale(SPRITE_SCALE);
 
     // Create animations
@@ -139,7 +139,7 @@ class MainScene extends Phaser.Scene {
 
     // Reset player if they fall too far
     if (this.player.y > this.scale.height + 200) {
-      this.player.setPosition(200, this.groundY - 64);
+      this.player.setPosition(200, this.groundY - 32);
       this.player.setVelocity(0, 0);
     }
   }
@@ -160,7 +160,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 600 },
-      debug: true, // Enable debug visualization temporarily
+      debug: false,
     },
   },
   scene: MainScene,
