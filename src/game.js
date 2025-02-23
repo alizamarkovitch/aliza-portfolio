@@ -3,7 +3,9 @@ class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: "MainScene" });
     this.backgrounds = [];
-    this.enemies = []; // Store enemies
+    this.enemies = [];
+    this.projectiles = [];
+    this.lastDirection = "right"; // Track player direction for shooting
   }
 
   preload() {
@@ -19,13 +21,36 @@ class MainScene extends Phaser.Scene {
     this.load.image("background", "src/assets/bg.png");
   }
 
-  createEnemy(x, y) {
+  createGroundEnemy(x, y) {
     const enemy = this.add.rectangle(x, y, 32, 32, 0xff0000);
     this.physics.add.existing(enemy);
     enemy.body.setVelocityX(-100);
     enemy.body.setCollideWorldBounds(false);
-    enemy.body.setImmovable(false); // Allow enemy to be affected by gravity
+    enemy.body.setImmovable(false);
+    enemy.jumpTimer = 0;
+    enemy.type = "ground";
     return enemy;
+  }
+
+  createFlyingEnemy(x, y) {
+    const enemy = this.add.rectangle(x, y, 32, 32, 0x0000ff); // Blue color
+    this.physics.add.existing(enemy);
+    enemy.body.setVelocityX(-150);
+    enemy.body.setCollideWorldBounds(false);
+    enemy.body.setImmovable(false);
+    enemy.body.setAllowGravity(false); // Flying enemies aren't affected by gravity
+    enemy.startY = y;
+    enemy.type = "flying";
+    enemy.flyDirection = 1; // 1 for up, -1 for down
+    return enemy;
+  }
+
+  createProjectile(x, y, direction) {
+    const projectile = this.add.circle(x, y, 8, 0xffff00); // Yellow projectile
+    this.physics.add.existing(projectile);
+    projectile.body.setAllowGravity(false);
+    projectile.body.setVelocityX(direction === "right" ? 400 : -400);
+    return projectile;
   }
 
   create() {
@@ -60,11 +85,21 @@ class MainScene extends Phaser.Scene {
 
     // Create enemies group
     this.enemyGroup = this.add.group();
+    this.projectileGroup = this.add.group();
 
-    // Spawn initial enemies
+    // Spawn initial enemies (mix of ground and flying)
     for (let i = 0; i < 3; i++) {
-      const enemy = this.createEnemy(gameWidth + i * 400, this.groundY - 16);
-      this.enemyGroup.add(enemy);
+      const groundEnemy = this.createGroundEnemy(
+        gameWidth + i * 400,
+        this.groundY - 16
+      );
+      this.enemyGroup.add(groundEnemy);
+
+      const flyingEnemy = this.createFlyingEnemy(
+        gameWidth + i * 400 + 200,
+        this.groundY - 200
+      );
+      this.enemyGroup.add(flyingEnemy);
     }
 
     // Create the player
@@ -100,16 +135,23 @@ class MainScene extends Phaser.Scene {
 
     // Handle enemy collision
     this.physics.add.overlap(this.player, this.enemyGroup, (player, enemy) => {
-      // Check if player is above the enemy
       if (player.body.touching.down && enemy.body.touching.up) {
-        // Player jumped on enemy
         enemy.destroy();
-        player.setVelocityY(-300); // Bounce player up
+        player.setVelocityY(-300);
       } else {
-        // Player hit enemy from side or below
         this.handlePlayerDeath();
       }
     });
+
+    // Handle projectile collision with enemies
+    this.physics.add.overlap(
+      this.projectileGroup,
+      this.enemyGroup,
+      (projectile, enemy) => {
+        projectile.destroy();
+        enemy.destroy();
+      }
+    );
 
     // Set up cursor keys for input
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -138,13 +180,15 @@ class MainScene extends Phaser.Scene {
     const gameWidth = this.scale.width;
     const cameraX = this.cameras.main.scrollX;
 
-    // Handle movement
+    // Handle movement and update last direction
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-300);
       this.player.anims.play("moveLeft", true);
+      this.lastDirection = "left";
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(300);
       this.player.anims.play("moveRight", true);
+      this.lastDirection = "right";
     } else {
       this.player.setVelocityX(0);
       this.player.anims.play("idle", true);
@@ -153,6 +197,16 @@ class MainScene extends Phaser.Scene {
     // Handle jumping
     if (this.cursors.space.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-500);
+    }
+
+    // Handle shooting
+    if (Phaser.Input.Keyboard.JustDown(this.cursors.shift)) {
+      const projectile = this.createProjectile(
+        this.player.x + (this.lastDirection === "right" ? 20 : -20),
+        this.player.y - 10,
+        this.lastDirection
+      );
+      this.projectileGroup.add(projectile);
     }
 
     // Infinite background scrolling
@@ -170,15 +224,37 @@ class MainScene extends Phaser.Scene {
     // Update enemies
     this.enemyGroup.children.iterate((enemy) => {
       if (enemy) {
-        // Remove enemies that are too far left
         if (enemy.x < cameraX - 100) {
           enemy.destroy();
+        } else if (enemy.type === "ground") {
+          // Random jumping for ground enemies
+          enemy.jumpTimer += 1;
+          if (enemy.jumpTimer > 120 && enemy.body.touching.down) {
+            // Jump every ~2 seconds if on ground
+            enemy.body.setVelocityY(-300);
+            enemy.jumpTimer = 0;
+          }
+        } else if (enemy.type === "flying") {
+          // Sinusoidal movement for flying enemies
+          enemy.y = enemy.startY + Math.sin(enemy.x / 100) * 50;
         }
       }
     });
 
+    // Clean up off-screen projectiles
+    this.projectileGroup.children.iterate((projectile) => {
+      if (
+        projectile &&
+        (projectile.x < cameraX - 100 ||
+          projectile.x > cameraX + gameWidth + 100)
+      ) {
+        projectile.destroy();
+      }
+    });
+
     // Spawn new enemies
-    if (this.enemyGroup.children.size < 3) {
+    if (this.enemyGroup.children.size < 6) {
+      // Increased to account for both types
       const lastEnemy = this.enemyGroup.children
         .getArray()
         .reduce((rightmost, enemy) => {
@@ -189,8 +265,14 @@ class MainScene extends Phaser.Scene {
         ? Math.max(lastEnemy.x + 400, cameraX + gameWidth + 100)
         : cameraX + gameWidth + 100;
 
-      const newEnemy = this.createEnemy(spawnX, this.groundY - 16);
-      this.enemyGroup.add(newEnemy);
+      // Randomly spawn either ground or flying enemy
+      if (Math.random() < 0.5) {
+        const groundEnemy = this.createGroundEnemy(spawnX, this.groundY - 16);
+        this.enemyGroup.add(groundEnemy);
+      } else {
+        const flyingEnemy = this.createFlyingEnemy(spawnX, this.groundY - 200);
+        this.enemyGroup.add(flyingEnemy);
+      }
     }
 
     // Reset player if they fall too far
