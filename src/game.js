@@ -8,6 +8,9 @@ class MainScene extends Phaser.Scene {
     this.lastDirection = "right"; // Track player direction for shooting
     this.shootDirection = { x: 1, y: 0 }; // Track shooting direction
     this.score = 0; // Initialize score
+    this.maxHealth = 3; // Maximum number of hearts
+    this.currentHealth = 3; // Current health
+    this.isInvulnerable = false; // Invulnerability after getting hit
   }
 
   preload() {
@@ -23,6 +26,49 @@ class MainScene extends Phaser.Scene {
     this.load.image("background", "src/assets/bg.png");
     // Load the cloud image
     this.load.image("cloud", "src/assets/cloud.png");
+  }
+
+  createHeart(x, y) {
+    const heart = this.add.graphics();
+    heart.fillStyle(0xff0000, 1);
+    heart.fillRoundedRect(x, y, 30, 30, 5);
+    heart.setScrollFactor(0);
+    heart.setDepth(1000);
+    return heart;
+  }
+
+  createHearts() {
+    this.hearts = [];
+    for (let i = 0; i < this.maxHealth; i++) {
+      const heart = this.createHeart(30 + i * 40, 15);
+      this.hearts.push(heart);
+    }
+  }
+
+  updateHearts() {
+    this.hearts.forEach((heart, index) => {
+      heart.visible = index < this.currentHealth;
+    });
+  }
+
+  handleDamage() {
+    if (this.isInvulnerable) return;
+
+    this.currentHealth--;
+    this.updateHearts();
+
+    // Make player flash and become temporarily invulnerable
+    this.isInvulnerable = true;
+    this.player.setAlpha(0.5);
+
+    this.time.delayedCall(1000, () => {
+      this.isInvulnerable = false;
+      this.player.setAlpha(1);
+    });
+
+    if (this.currentHealth <= 0) {
+      this.handlePlayerDeath();
+    }
   }
 
   createGroundEnemy(x, y) {
@@ -96,6 +142,9 @@ class MainScene extends Phaser.Scene {
     });
     this.scoreText.setScrollFactor(0); // Fix to camera
     this.scoreText.setDepth(1000); // Make sure it's always on top
+
+    // Create hearts
+    this.createHearts();
 
     // Create the parallax background
     for (let i = 0; i < 3; i++) {
@@ -209,8 +258,12 @@ class MainScene extends Phaser.Scene {
         player.setVelocityY(-300);
         this.score += 10; // Add 10 points for stomping enemies
         this.scoreText.setText("Score: " + this.score); // Update score display
-      } else {
-        this.handlePlayerDeath();
+      } else if (!this.isInvulnerable) {
+        this.handleDamage();
+        // Add knockback effect
+        const knockbackDirection = player.x < enemy.x ? -1 : 1;
+        player.setVelocityX(knockbackDirection * -300);
+        player.setVelocityY(-200);
       }
     });
 
