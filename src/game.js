@@ -29,9 +29,7 @@ class MainScene extends Phaser.Scene {
   }
 
   createHeart(x, y) {
-    const heart = this.add.graphics();
-    heart.fillStyle(0xff0000, 1);
-    heart.fillRoundedRect(x, y, 30, 30, 5);
+    const heart = this.add.circle(x, y, 10, 0xff0000);
     heart.setScrollFactor(0);
     heart.setDepth(1000);
     return heart;
@@ -40,14 +38,14 @@ class MainScene extends Phaser.Scene {
   createHearts() {
     this.hearts = [];
     for (let i = 0; i < this.maxHealth; i++) {
-      const heart = this.createHeart(30 + i * 40, 15);
+      const heart = this.createHeart(25 + i * 30, 25);
       this.hearts.push(heart);
     }
   }
 
   updateHearts() {
     this.hearts.forEach((heart, index) => {
-      heart.visible = index < this.currentHealth;
+      heart.setVisible(index < this.currentHealth);
     });
   }
 
