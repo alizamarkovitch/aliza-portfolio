@@ -7,6 +7,7 @@ class MainScene extends Phaser.Scene {
     this.projectiles = [];
     this.lastDirection = "right"; // Track player direction for shooting
     this.shootDirection = { x: 1, y: 0 }; // Track shooting direction
+    this.score = 0; // Initialize score
   }
 
   preload() {
@@ -52,6 +53,9 @@ class MainScene extends Phaser.Scene {
     const platform = this.add.rectangle(x, y, width, 20, 0x8b4513); // Brown color
     this.physics.add.existing(platform, true);
     platform.setScrollFactor(1, 0);
+    platform.startY = y; // Store initial Y position
+    platform.oscillationSpeed = Phaser.Math.FloatBetween(0.5, 1.5); // Random speed
+    platform.oscillationRange = Phaser.Math.FloatBetween(20, 40); // Random range
     return platform;
   }
 
@@ -82,6 +86,16 @@ class MainScene extends Phaser.Scene {
     // Get the game dimensions
     const gameHeight = this.scale.height;
     const gameWidth = this.scale.width;
+
+    // Create score text
+    this.scoreText = this.add.text(gameWidth - 150, 20, "Score: 0", {
+      fontSize: "24px",
+      fill: "#fff",
+      stroke: "#000",
+      strokeThickness: 4,
+    });
+    this.scoreText.setScrollFactor(0); // Fix to camera
+    this.scoreText.setDepth(1000); // Make sure it's always on top
 
     // Create the parallax background
     for (let i = 0; i < 3; i++) {
@@ -176,16 +190,6 @@ class MainScene extends Phaser.Scene {
     this.physics.add.collider(this.player, this.platformGroup);
     this.physics.add.collider(this.enemyGroup, this.platformGroup);
 
-    // Handle enemy collision
-    this.physics.add.overlap(this.player, this.enemyGroup, (player, enemy) => {
-      if (player.body.touching.down && enemy.body.touching.up) {
-        enemy.destroy();
-        player.setVelocityY(-300);
-      } else {
-        this.handlePlayerDeath();
-      }
-    });
-
     // Handle projectile collision with enemies
     this.physics.add.overlap(
       this.projectileGroup,
@@ -193,8 +197,22 @@ class MainScene extends Phaser.Scene {
       (projectile, enemy) => {
         projectile.destroy();
         enemy.destroy();
+        this.score += 10; // Add 10 points for each enemy destroyed
+        this.scoreText.setText("Score: " + this.score); // Update score display
       }
     );
+
+    // Handle enemy collision with player
+    this.physics.add.overlap(this.player, this.enemyGroup, (player, enemy) => {
+      if (player.body.touching.down && enemy.body.touching.up) {
+        enemy.destroy();
+        player.setVelocityY(-300);
+        this.score += 10; // Add 10 points for stomping enemies
+        this.scoreText.setText("Score: " + this.score); // Update score display
+      } else {
+        this.handlePlayerDeath();
+      }
+    });
 
     // Set up cursor keys for input
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -368,8 +386,19 @@ class MainScene extends Phaser.Scene {
 
     // Update platforms
     this.platformGroup.children.iterate((platform) => {
-      if (platform && platform.x < cameraX - platform.width) {
-        platform.destroy();
+      if (platform) {
+        if (platform.x < cameraX - platform.width) {
+          platform.destroy();
+        } else {
+          // Calculate new Y position
+          const newY =
+            platform.startY +
+            Math.sin(this.time.now * 0.002 * platform.oscillationSpeed) *
+              platform.oscillationRange;
+          // Update both visual and physics body position
+          platform.y = newY;
+          platform.body.position.y = newY;
+        }
       }
     });
 
