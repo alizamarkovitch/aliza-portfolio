@@ -255,6 +255,7 @@ class MainScene extends Phaser.Scene {
     // Reset player position
     this.player.setPosition(200, this.groundY - 32);
     this.player.setVelocity(0, 0);
+    // Note: We're not resetting the score here, so it persists after death
   }
 
   updateShootDirection() {
