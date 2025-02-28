@@ -11,6 +11,10 @@ class MainScene extends Phaser.Scene {
     this.maxHealth = 3; // Maximum number of hearts
     this.currentHealth = 3; // Current health
     this.isInvulnerable = false; // Invulnerability after getting hit
+    this.levelEndDistance = 5 * 800; // 5 screens worth of distance (assuming 800px width)
+    this.levelCompleted = false; // Track if level is completed
+    this.levelEndingPhase = 0; // Track the phase of the level ending sequence
+    this.levelEndingTimer = 0; // Timer for level ending sequence
   }
 
   preload() {
@@ -70,27 +74,144 @@ class MainScene extends Phaser.Scene {
   }
 
   createGroundEnemy(x, y) {
-    const enemy = this.add.rectangle(x, y, 32, 32, 0xff0000);
-    this.physics.add.existing(enemy);
-    enemy.body.setVelocityX(-100);
-    enemy.body.setCollideWorldBounds(false);
-    enemy.body.setImmovable(false);
-    enemy.jumpTimer = 0;
-    enemy.type = "ground";
-    return enemy;
+    // Create a circle for the base enemy shape
+    const enemy = this.add.circle(0, 0, 16, 0xff0000);
+
+    // Add a darker outline to make it stand out
+    const outline = this.add.circle(0, 0, 18, 0x990000);
+    outline.setDepth(-1); // Place behind the main body
+
+    // Add eyes to make it look vicious - make them angrier with smaller eyes
+    const leftEye = this.add.circle(-6, -5, 3, 0xffffff);
+    const rightEye = this.add.circle(6, -5, 3, 0xffffff);
+
+    // Add pupils - make them smaller and more focused
+    const leftPupil = this.add.circle(-6, -5, 1.5, 0x000000);
+    const rightPupil = this.add.circle(6, -5, 1.5, 0x000000);
+
+    // Add angry eyebrows - make them thicker and more angled
+    const leftEyebrow = this.add.rectangle(-6, -10, 10, 3, 0x000000);
+    const rightEyebrow = this.add.rectangle(6, -10, 10, 3, 0x000000);
+    leftEyebrow.setAngle(-40);
+    rightEyebrow.setAngle(40);
+
+    // Add a mouth with teeth
+    const mouth = this.add.rectangle(0, 7, 14, 3, 0x000000);
+
+    // Add teeth
+    const leftTooth = this.add.triangle(-4, 5, 0, 0, -3, 5, 3, 5, 0xffffff);
+    const rightTooth = this.add.triangle(4, 5, 0, 0, -3, 5, 3, 5, 0xffffff);
+
+    // Create a container to group all parts
+    const container = this.add.container(x, y, [
+      outline,
+      enemy,
+      leftEye,
+      rightEye,
+      leftPupil,
+      rightPupil,
+      leftEyebrow,
+      rightEyebrow,
+      mouth,
+      leftTooth,
+      rightTooth,
+    ]);
+    container.setSize(32, 32);
+
+    // Add physics to the container
+    this.physics.add.existing(container);
+    container.body.setVelocityX(-100);
+    container.body.setCollideWorldBounds(false);
+    container.body.setImmovable(false);
+    container.jumpTimer = 0;
+    container.type = "ground";
+
+    return container;
   }
 
   createFlyingEnemy(x, y) {
-    const enemy = this.add.rectangle(x, y, 32, 32, 0x0000ff); // Blue color
-    this.physics.add.existing(enemy);
-    enemy.body.setVelocityX(-150);
-    enemy.body.setCollideWorldBounds(false);
-    enemy.body.setImmovable(false);
-    enemy.body.setAllowGravity(false); // Flying enemies aren't affected by gravity
-    enemy.startY = y;
-    enemy.type = "flying";
-    enemy.flyDirection = 1; // 1 for up, -1 for down
-    return enemy;
+    // Create a circle for the base enemy shape - make it a deeper blue
+    const enemy = this.add.circle(0, 0, 16, 0x0000cc);
+
+    // Add a darker outline
+    const outline = this.add.circle(0, 0, 18, 0x000066);
+    outline.setDepth(-1);
+
+    // Add more aggressive spikes
+    const numSpikes = 10; // More spikes
+    const spikes = [];
+    for (let i = 0; i < numSpikes; i++) {
+      const angle = (i / numSpikes) * Math.PI * 2;
+      const spikeX = Math.cos(angle) * 16;
+      const spikeY = Math.sin(angle) * 16;
+      const spike = this.add.triangle(
+        spikeX,
+        spikeY,
+        0,
+        -12, // Make spikes longer
+        -5,
+        6,
+        5,
+        6,
+        0x6666ff
+      );
+      spike.setAngle(angle * (180 / Math.PI) + 90);
+      spikes.push(spike);
+    }
+
+    // Add more menacing eyes - larger with red pupils
+    const leftEye = this.add.circle(-7, -5, 5, 0xffffff);
+    const rightEye = this.add.circle(7, -5, 5, 0xffffff);
+
+    // Add bright red pupils for a more menacing look
+    const leftPupil = this.add.circle(-7, -5, 3, 0xff0000);
+    const rightPupil = this.add.circle(7, -5, 3, 0xff0000);
+
+    // Add a mouth with sharp teeth
+    const mouth = this.add.rectangle(0, 7, 12, 2, 0x000000);
+
+    // Add sharp teeth
+    const teeth = [];
+    for (let i = 0; i < 3; i++) {
+      const tooth = this.add.triangle(
+        -6 + i * 6,
+        6,
+        0,
+        0,
+        -2,
+        4,
+        2,
+        4,
+        0xffffff
+      );
+      teeth.push(tooth);
+    }
+
+    // Create a container to group all parts
+    const container = this.add.container(x, y, [
+      outline,
+      enemy,
+      ...spikes,
+      leftEye,
+      rightEye,
+      leftPupil,
+      rightPupil,
+      mouth,
+      ...teeth,
+    ]);
+    container.setSize(32, 32);
+
+    // Add physics to the container
+    this.physics.add.existing(container);
+    container.body.setVelocityX(-150);
+    container.body.setCollideWorldBounds(false);
+    container.body.setImmovable(false);
+    container.body.setAllowGravity(false); // Flying enemies aren't affected by gravity
+    container.startY = y;
+    container.type = "flying";
+    container.flyDirection = 1; // 1 for up, -1 for down
+
+    return container;
   }
 
   createPlatform(x, y, width) {
@@ -300,6 +421,87 @@ class MainScene extends Phaser.Scene {
       const cloud = this.createCloud(x, y);
       this.cloudGroup.add(cloud);
     }
+
+    // Create level goal marker
+    this.levelGoal = this.add.rectangle(
+      this.levelEndDistance,
+      this.groundY - 100,
+      50,
+      200,
+      0xffff00
+    );
+    this.physics.add.existing(this.levelGoal, true);
+    this.levelGoal.setAlpha(0.8);
+
+    // Add a flag on top of the goal
+    this.goalFlag = this.add.triangle(
+      this.levelEndDistance,
+      this.groundY - 200,
+      0,
+      0,
+      0,
+      50,
+      30,
+      25,
+      0xff0000
+    );
+
+    // Add some decorative elements around the goal
+    for (let i = 0; i < 5; i++) {
+      const star = this.add.star(
+        this.levelEndDistance + Phaser.Math.Between(-100, 100),
+        this.groundY - Phaser.Math.Between(150, 300),
+        5,
+        8,
+        16,
+        0xffff00
+      );
+      star.setAlpha(0.8);
+    }
+
+    // Create level completion text (initially hidden)
+    this.levelCompleteText = this.add.text(
+      gameWidth / 2,
+      gameHeight / 2,
+      "LEVEL COMPLETE!",
+      {
+        fontSize: "48px",
+        fill: "#fff",
+        stroke: "#000",
+        strokeThickness: 6,
+        fontStyle: "bold",
+      }
+    );
+    this.levelCompleteText.setOrigin(0.5);
+    this.levelCompleteText.setScrollFactor(0);
+    this.levelCompleteText.setAlpha(0);
+    this.levelCompleteText.setDepth(1000);
+
+    // Create score display for level end
+    this.finalScoreText = this.add.text(
+      gameWidth / 2,
+      gameHeight / 2 + 60,
+      "",
+      {
+        fontSize: "32px",
+        fill: "#fff",
+        stroke: "#000",
+        strokeThickness: 4,
+      }
+    );
+    this.finalScoreText.setOrigin(0.5);
+    this.finalScoreText.setScrollFactor(0);
+    this.finalScoreText.setAlpha(0);
+    this.finalScoreText.setDepth(1000);
+
+    // Add collision detection for level goal
+    this.physics.add.overlap(
+      this.player,
+      this.levelGoal,
+      this.triggerLevelEnding,
+      null,
+      this
+    );
   }
 
   handlePlayerDeath() {
@@ -334,40 +536,227 @@ class MainScene extends Phaser.Scene {
     }
   }
 
+  triggerLevelEnding() {
+    if (!this.levelCompleted) {
+      this.levelCompleted = true;
+      this.levelEndingPhase = 1;
+      this.levelEndingTimer = 0;
+
+      // Stop player movement and make invulnerable
+      this.player.setVelocity(0, 0);
+      this.isInvulnerable = true;
+
+      // Disable player controls
+      this.cursors.left.enabled = false;
+      this.cursors.right.enabled = false;
+      this.cursors.space.enabled = false;
+      this.cursors.shift.enabled = false;
+
+      // Add bonus score for completing level
+      this.score += 500;
+      this.scoreText.setText("Score: " + this.score);
+
+      // Create fireworks
+      this.createFireworks();
+    }
+  }
+
+  createFireworks() {
+    // Create multiple firework explosions
+    for (let i = 0; i < 10; i++) {
+      this.time.delayedCall(i * 300, () => {
+        const x = this.player.x + Phaser.Math.Between(-200, 200);
+        const y = Phaser.Math.Between(this.groundY - 300, this.groundY - 100);
+        this.createFireworkExplosion(x, y);
+      });
+    }
+  }
+
+  createFireworkExplosion(x, y) {
+    const particleCount = 30;
+    const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff];
+    const color = Phaser.Utils.Array.GetRandom(colors);
+
+    for (let i = 0; i < particleCount; i++) {
+      const angle = (i / particleCount) * Math.PI * 2;
+      const speed = Phaser.Math.Between(100, 200);
+      const particle = this.add.circle(x, y, 3, color);
+
+      this.physics.add.existing(particle);
+      particle.body.setAllowGravity(false);
+      particle.body.setVelocity(
+        Math.cos(angle) * speed,
+        Math.sin(angle) * speed
+      );
+
+      // Fade out and destroy particle
+      this.tweens.add({
+        targets: particle,
+        alpha: 0,
+        scale: 0.5,
+        duration: 1000,
+        onComplete: () => {
+          particle.destroy();
+        },
+      });
+    }
+  }
+
+  updateLevelEndingSequence() {
+    if (!this.levelCompleted) return;
+
+    this.levelEndingTimer++;
+
+    // Phase 1: Initial celebration (fireworks, etc.)
+    if (this.levelEndingPhase === 1 && this.levelEndingTimer > 60) {
+      this.levelEndingPhase = 2;
+      this.levelEndingTimer = 0;
+
+      // Show level complete text with animation
+      this.tweens.add({
+        targets: this.levelCompleteText,
+        alpha: 1,
+        scale: { from: 0.5, to: 1 },
+        duration: 1000,
+        ease: "Bounce.Out",
+      });
+    }
+
+    // Phase 2: Show score
+    else if (this.levelEndingPhase === 2 && this.levelEndingTimer > 60) {
+      this.levelEndingPhase = 3;
+      this.levelEndingTimer = 0;
+
+      // Show final score
+      this.finalScoreText.setText("Final Score: " + this.score);
+      this.tweens.add({
+        targets: this.finalScoreText,
+        alpha: 1,
+        y: { from: this.finalScoreText.y + 50, to: this.finalScoreText.y },
+        duration: 800,
+        ease: "Back.Out",
+      });
+
+      // Make player do a victory animation
+      this.player.setVelocityY(-400);
+
+      // Create more fireworks for final celebration
+      this.createFireworks();
+    }
+
+    // Phase 3: Final celebration
+    else if (this.levelEndingPhase === 3 && this.levelEndingTimer > 180) {
+      this.levelEndingPhase = 4;
+
+      // Add "Next Level" text that would transition to the next level
+      const nextLevelText = this.add.text(
+        this.scale.width / 2,
+        this.scale.height / 2 + 120,
+        "Ready for Next Adventure!",
+        {
+          fontSize: "24px",
+          fill: "#fff",
+          stroke: "#000",
+          strokeThickness: 4,
+        }
+      );
+      nextLevelText.setOrigin(0.5);
+      nextLevelText.setScrollFactor(0);
+      nextLevelText.setDepth(1000);
+      nextLevelText.setAlpha(0);
+
+      // Animate the next level text
+      this.tweens.add({
+        targets: nextLevelText,
+        alpha: 1,
+        duration: 1000,
+        ease: "Sine.InOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    }
+  }
+
   update() {
     const gameWidth = this.scale.width;
     const cameraX = this.cameras.main.scrollX;
 
-    // Handle movement and update last direction
-    if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-300);
-      this.player.anims.play("moveLeft", true);
-      this.lastDirection = "left";
-    } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(300);
-      this.player.anims.play("moveRight", true);
-      this.lastDirection = "right";
-    } else {
-      this.player.setVelocityX(0);
-      this.player.anims.play("idle", true);
+    // Update level ending sequence if active
+    if (this.levelCompleted) {
+      this.updateLevelEndingSequence();
+
+      // If we're in phase 3 or later, make the player do celebratory jumps
+      if (this.levelEndingPhase >= 3 && this.player.body.touching.down) {
+        this.player.setVelocityY(-300);
+      }
+
+      // Continue with other updates but skip player controls
     }
 
-    // Handle jumping
-    if (this.cursors.space.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-500);
+    // Only process player controls if level is not completed
+    if (!this.levelCompleted) {
+      // Handle movement and update last direction
+      if (this.cursors.left.isDown) {
+        this.player.setVelocityX(-300);
+        this.player.anims.play("moveLeft", true);
+        this.lastDirection = "left";
+      } else if (this.cursors.right.isDown) {
+        this.player.setVelocityX(300);
+        this.player.anims.play("moveRight", true);
+        this.lastDirection = "right";
+      } else {
+        this.player.setVelocityX(0);
+        this.player.anims.play("idle", true);
+      }
+
+      // Handle jumping
+      if (this.cursors.space.isDown && this.player.body.touching.down) {
+        this.player.setVelocityY(-500);
+      }
+
+      // Update shoot direction based on arrow keys
+      this.updateShootDirection();
+
+      // Handle shooting
+      if (Phaser.Input.Keyboard.JustDown(this.cursors.shift)) {
+        const projectile = this.createProjectile(
+          this.player.x,
+          this.player.y,
+          this.shootDirection
+        );
+        this.projectileGroup.add(projectile);
+      }
     }
 
-    // Update shoot direction based on arrow keys
-    this.updateShootDirection();
+    // Rest of update function continues as normal
+    // Update distance progress indicator
+    if (!this.levelCompleted) {
+      const progress = Math.min(1, this.player.x / this.levelEndDistance);
+      if (this.progressBar) {
+        this.progressBar.clear();
+        this.progressBar.fillStyle(0x00ff00, 1);
+        this.progressBar.fillRect(10, 50, 200 * progress, 10);
+      } else {
+        this.progressBar = this.add.graphics();
+        this.progressBar.setScrollFactor(0);
+        this.progressBar.setDepth(1000);
 
-    // Handle shooting
-    if (Phaser.Input.Keyboard.JustDown(this.cursors.shift)) {
-      const projectile = this.createProjectile(
-        this.player.x,
-        this.player.y,
-        this.shootDirection
-      );
-      this.projectileGroup.add(projectile);
+        // Add progress bar background
+        this.progressBarBg = this.add.rectangle(110, 55, 204, 14, 0x000000);
+        this.progressBarBg.setScrollFactor(0);
+        this.progressBarBg.setDepth(999);
+        this.progressBarBg.setAlpha(0.5);
+
+        // Add progress label
+        this.progressLabel = this.add.text(10, 30, "Level Progress:", {
+          fontSize: "16px",
+          fill: "#fff",
+          stroke: "#000",
+          strokeThickness: 2,
+        });
+        this.progressLabel.setScrollFactor(0);
+        this.progressLabel.setDepth(1000);
+      }
     }
 
     // Infinite background scrolling
@@ -398,6 +787,9 @@ class MainScene extends Phaser.Scene {
         } else if (enemy.type === "flying") {
           // Sinusoidal movement for flying enemies
           enemy.y = enemy.startY + Math.sin(enemy.x / 100) * 50;
+
+          // Rotate the container slightly based on movement to add more character
+          enemy.setAngle(Math.sin(this.time.now / 200) * 5);
         }
       }
     });
