@@ -1,0 +1,251 @@
+/* Reset and base styles */
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #ffffff;
+  --text-color: #282a2b;
+  --background-color: #fff;
+  --sidebar-bg: #262f34;
+  --accent-color: #ffffff33;
+  --font-primary: "Sora", sans-serif;
+  --font-secondary: "Source Serif 4", serif;
+  --sidebar-width: 300px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--text-color);
+  line-height: 1.6;
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
+/* Layout */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: var(--sidebar-bg);
+  padding: 2.5rem;
+  color: var(--primary-color);
+  z-index: 100;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  height: 100%;
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.profile-image {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-text h1 {
+  font-family: var(--font-primary);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.36;
+  color: var(--primary-color);
+}
+
+/* Navigation */
+.navbar {
+  margin-top: auto;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-size: 16px;
+  font-weight: normal;
+  transition: opacity 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  opacity: 0.8;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 300px;
+  flex-grow: 1;
+  padding: 2rem;
+  background-color: var(--background-color);
+}
+
+/* Projects Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.project {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.project:hover {
+  transform: translateY(-5px);
+}
+
+.project-image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.project:hover .project-info {
+  transform: translateY(0);
+}
+
+.project-info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: normal;
+}
+
+.project-info p {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  font-family: var(--font-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 250px;
+  }
+
+  .main-content {
+    margin-left: 250px;
+  }
+
+  .hero-text h1 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    border-bottom: 1px solid var(--accent-color);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: var(--primary-color);
+    margin: 5px 0;
+    transition: 0.3s;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .hero-text h1 {
+    font-size: 24px;
+    line-height: 1.35;
+  }
+}
