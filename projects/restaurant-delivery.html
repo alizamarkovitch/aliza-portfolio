@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Go Delivery - Redesign of restaurant delivery application">
+    
+    <title>Go Delivery - Aliza's Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+</head>
+<body>
+    <div class="layout">
+        <main class="project-content">
+            <nav class="project-nav">
+                <a href="../index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Projects
+                </a>
+            </nav>
+            
+            <article class="project-details">
+                <header class="project-header">
+                    <h1>Go Delivery</h1>
+                    <p class="project-subtitle">Redesign of restaurant delivery app</p>
+                </header>
+
+                <div class="project-hero">
+                    <img src="../assets/images/go-delivery/hero.png" 
+                         alt="Go Delivery Project Overview">
+                </div>
+
+                <section class="project-section">
+                    <h2>Overview</h2>
+                    <p>Go is an order processing application used by 500K+ restaurants around the world. During its early development, the product lacked some much-needed design love. To meet the needs of a fast-expanding global market, features were quickly built on top of one another and as a result, the interface got messy.</p>
+                    <p>It became increasingly important to simplify and align the design across different devices. We gave Go a visual refresh and created a collection of reusable components, forming the basis of our new design system!</p>
+                </section>
+
+                <section class="project-section">
+                    <h2>The Challenge</h2>
+                    <h3>Problem</h3>
+                    <ul>
+                        <li>The interface is messy creating a poor user experience</li>
+                        <li>Mobile and Web UX/UI not aligned</li>
+                        <li>Same information communicated in different ways</li>
+                        <li>No systematic approach for designing new features. Starting from scratch every time</li>
+                    </ul>
+
+                    <h3>Goals</h3>
+                    <ul>
+                        <li>Improve acceptance time and reduce order fail rate by helping users easily distinguish new and active orders</li>
+                        <li>Clean up UI so that it is easy for users to identify important order information</li>
+                        <li>Align designs across mobile and web</li>
+                        <li>Create a design system to provide a systematic approach for developing new features</li>
+                    </ul>
+
+                    <h3>Task</h3>
+                    <ul>
+                        <li>Redesign Go's order processing flow for mobile and web</li>
+                    </ul>
+                </section>
+
+                <section class="project-section">
+                    <h2>Discovery</h2>
+                    <p>I began by understanding the purpose of every element within the current design. Which information is the most important? Which could be removed. I cross-referenced the interface across mobile and web to highlight discrepancies. Together with stakeholders, we prioritized which content to carry over into the new design.</p>
+                    
+                    <div class="media-container display-mode--small">
+                        <img src="../assets/images/go-delivery/kickoff.jpg" 
+                             alt="Photo from kick-off session">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Photo from kick-off session</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>Ideation</h2>
+                    <p>The Order Processing screen is a critical part of the Go interface. Here, users manage a summary of all their orders. I spent lots of time ideating on this screen, exploring different ways to simplify the information. Specifically, brainstorming how to improve the distinction between new and active orders.</p>
+                    
+                    <div class="media-container display-mode--small">
+                        <img src="../assets/images/go-delivery/ideation.jpg" 
+                             alt="Photo from ideation session">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Photo from ideation session</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>Prototyping</h2>
+                    <p>I narrowed down my ideas into two design concepts.</p>
+                    <p><strong>Concept A</strong> was a Swimlane. New orders appear as visually different cards on top of the screen.</p>
+                    <p><strong>Concept B</strong> used a Drawer. By swiping the drawer up and down, users could switch between new and active orders.</p>
+                    <p>But before moving to high-fidelity designs, I wanted to gather user feedback. So I created prototypes for each concept which I brought along on a vendor research trip...</p>
+                    
+                    <div class="media-container display-mode--small">
+                        <img src="../assets/images/go-delivery/wireframes.png" 
+                             alt="Wireframes of each prototype concept">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Wireframes of each prototype concept (Swimlane vs Drawer)</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>User Research</h2>
+                    <ul>
+                        <li>Visited 12 different restaurants</li>
+                        <li>Interviewed restaurant owners and employees</li>
+                        <li>Job shadowing (Restaurants and Partner support center)</li>
+                    </ul>
+                    <p>Visiting restaurants in-person provided a deeper understanding of the real environment. I was curious about how our restaurants would feel about the new design concepts. From street food shops to international chains such as KFC I gathered a range of user insights.</p>
+                    
+                    <div class="media-container display-mode--small">
+                        <img src="../assets/images/go-delivery/user-interview.jpg" 
+                             alt="Photo of user interview with restaurant employee">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Photo of user interview with restaurant employee</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>Card Sorting</h2>
+                    <p>The old design was cluttered, there was a lot of information competing on the screen. This made it challenging for users to quickly identify important information. To improve the information hierarchy, I decided to run a card sorting session.</p>
+                    <p>I asked users to prioritize information such as 'Order Number' and 'Customer Name' based on each stage of the order processing flow. Many users mentioned the value of both short and long order codes as a key identifier for referencing orders.</p>
+                    
+                    <div class="media-container display-mode--small">
+                        <img src="../assets/images/go-delivery/card-sorting.jpg" 
+                             alt="Photo of card sorting session">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Photo of card sorting session</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>Testing</h2>
+                    <p>During our restaurant visits, I showed the low-fidelity prototypes to users to find out which of the two design concepts they preferred. I asked them to practice accepting new orders and gathered feedback on their first impressions.</p>
+                    <p>I learned that most people preferred the swimlane concept. They also shared that the bold colours, fonts and whitespace made it easy to differentiate between new and accepted orders. The positive feedback helped validate we were going in the right direction.</p>
+                    
+                    <div class="media-container display-mode--small">
+                        <img src="../assets/images/go-delivery/testing.jpg" 
+                             alt="Photo of usability testing session">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Photo of usability testing session</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>Final Design</h2>
+                    <ul>
+                        <li>New swimlane concept for mobile</li>
+                        <li>Bold, dark font faces for improved readability</li>
+                        <li>More whitespace for improved visibility</li>
+                    </ul>
+                    
+                    <div class="media-container display-mode--large">
+                        <img src="../assets/images/go-delivery/final-mobile.png" 
+                             alt="Examples of new mobile UI">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Examples of new mobile UI (Order details, Order processing)</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>Unification of Mobile and Web</h2>
+                    <p>One design aligned across all devices (mobile, tablet and web).</p>
+                    
+                    <div class="media-container display-mode--large">
+                        <img src="../assets/images/go-delivery/unified-design.png" 
+                             alt="Final outcome: one design aligned across all devices">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Final outcome: one design aligned across all devices</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>Design System</h2>
+                    <p>Atomic design system that organized elements from new design into reusable styling and components.</p>
+                    
+                    <div class="media-container display-mode--large">
+                        <img src="../assets/images/go-delivery/design-system.png" 
+                             alt="Examples from new Go design system">
+                        <div class="media-caption">
+                            <div class="text-container">
+                                <p>Examples from new Go design system</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="project-section">
+                    <h2>What are people saying?</h2>
+                    <div class="testimonial">
+                        <p>"The visual is quite clear saying this is exactly what is new. These vibrant colours make it easier for vendors to identify"</p>
+                        <p class="attribution">- Operations Manager, Partner Support</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <p>"The colour scheme is nice with new orders at the top in pink [brand colour]"</p>
+                        <p class="attribution">- Mark F., Restaurant Owner</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <p>"Easy to read"<br>
+                        "Very much improved"<br>
+                        "Unification of both" :)</p>
+                        <p class="attribution">- Department Head, Talabat</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <p>"I think it'll help us a lot!"<br>
+                        "When will it be ready?"</p>
+                        <p class="attribution">- Partner Operations Manager, FoodPanda</p>
+                    </div>
+                </section>
+            </article>
+
+            <nav class="project-navigation">
+                <div class="nav-previous">
+                    <a href="league-console.html">
+                        <i class="fas fa-arrow-left"></i>
+                        Previous Project
+                    </a>
+                </div>
+                <div class="nav-next">
+                    <a href="#" class="disabled">
+                        Next Project
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </nav>
+        </main>
+    </div>
+</body>
+</html> 
