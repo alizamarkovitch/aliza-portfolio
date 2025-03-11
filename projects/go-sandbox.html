@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Go Sandbox — Various features developed at Delivery Hero to improve restaurant operations and order management.">
+    
+    <title>Go Sandbox - Aliza's Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+</head>
+<body>
+    <div class="layout">
+        <main class="project-content">
+            <nav class="project-nav">
+                <a href="../index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Projects
+                </a>
+            </nav>
+            
+            <article class="project-details">
+                <header class="project-header">
+                    <h1>Go Sandbox</h1>
+                    <p class="project-subtitle">Various features that I worked on in my time at Delivery Hero</p>
+                </header>
+
+                <div class="project-hero">
+                    <img src="../assets/images/projects/go-sandbox/preview.png" 
+                         alt="Go Sandbox Project">
+                </div>
+
+                <section class="project-section">
+                    <h2>Vendor Check-in</h2>
+                    <div class="media-container display-mode--large">
+                        <div class="embed">
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/YNloPTdbss0" 
+                                    title="Vendor Check-in Demo" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    style="aspect-ratio: 16/9;">
+                            </iframe>
+                        </div>
+                    </div>
+                    <p>Previously, a restaurant's availability would automatically set to Open or Closed based on their schedule. However, with the onset of Corona, many restaurants were suddenly forced to close their stores with little warning. This was problematic, as many schedules were not updated. We noticed that 22% of order failures were happening in the first 60 minutes of opening time. Orders were being sent to devices and failing because no one was there to accept them.</p>
+                    <p>To ensure restaurants were ready to accept orders, we replaced the automatic process with a manual check-in feature. Every morning, employees had to set their restaurant to Open before they could start accepting orders.</p>
+                    <p>The result was extremely successful. Vendors easily understood the new feature and it quickly became a habit for them to open their restaurant. After launching the feature we noticed a 26% reduction in the order failure rate with a minimal impact on successful orders.</p>
+                </section>
+
+                <section class="project-section">
+                    <h2>Menu Reminder</h2>
+                    <div class="media-container display-mode--large">
+                        <div class="embed">
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/1pzRD6tIx0I" 
+                                    title="Menu Reminder Demo" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    style="aspect-ratio: 16/9;">
+                            </iframe>
+                        </div>
+                    </div>
+                    <p>During a busy day, when popular items run out, employees set them as unavailable on the platform. The following day, they are automatically made available again. After analyzing the data, we saw that 25% of orders were failing due to Item Unavailable.</p>
+                    <p>Vendors highlighted a major issue with the automatically reactivating menu items. Items are not always available again the next day and this causes vendors to decline orders.</p>
+                    <p>We were stuck between a rock and a hard place. If we didn't automatically reactivate items we believed vendors would forget to, and if we did these items could cause order failure.</p>
+                    <p>To ensure customers were not missing out on their favourite dishes and menu availability was up-to-date we replaced the automatic process with an alert. The alert prompted users to review and reactivate unavailable items. This experiment is currently running.</p>
+                </section>
+
+                <section class="project-section">
+                    <h2>New Order Counter</h2>
+                    <div class="media-container display-mode--large">
+                        <div class="embed">
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/nP2hw-FKyLc" 
+                                    title="New Order Counter Demo" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    style="aspect-ratio: 16/9;">
+                            </iframe>
+                        </div>
+                    </div>
+                    <p>It is critical that new orders are accepted in time. If not, these orders are automatically declined and create a negative customer experience. After a bad experience, customers are less likely to order from the same restaurant again.</p>
+                    <p>To ensure vendors accept every order we created a new order notification. The component directs users to view and accept new orders with one click from anywhere in the app. This feature will go into development next quarter.</p>
+                </section>
+            </article>
+
+            <nav class="project-navigation">
+                <div class="nav-previous">
+                    <a href="restaurant-dashboard.html">
+                        <i class="fas fa-arrow-left"></i>
+                        Previous Project
+                    </a>
+                </div>
+                <div class="nav-next">
+                    <a href="ar-packaging.html">
+                        <i class="fas fa-arrow-right"></i>
+                        Next Project
+                    </a>
+                </div>
+            </nav>
+        </main>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Restaurant Performance Dashboard — A new feature for order-processing platform, focusing on helping restaurants track and improve their performance metrics.">
+    
+    <title>Restaurant Performance Dashboard - Aliza's Portfolio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/project.css">
+</head>
+<body>
+    <div class="layout">
+        <main class="project-content">
+            <nav class="project-nav">
+                <a href="../index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Projects
+                </a>
+            </nav>
+            
+            <article class="project-details">
+                <header class="project-header">
+                    <h1>Restaurant Performance Dashboard</h1>
+                    <p class="project-subtitle">New feature for order-processing platform</p>
+                </header>
+
+                <div class="project-hero">
+                    <img src="../assets/images/projects/restaurant-dashboard/preview.png" 
+                         alt="Restaurant Performance Dashboard">
+                </div>
+
+                <section class="project-section">
+                    <h2>Overview</h2>
+                    <p>Food delivery applications have transformed the restaurant experience. Restaurants have the added responsibility of providing the same level of service to customers online as the real-life ones in front of them. However, performance expectations in a delivery app differ from a brick-and-mortar store.</p>
+                    <p>Since restaurants play a significant role in providing a seamless delivery experience, we wanted to investigate how to influence them to improve their performance on the order-processing platform. We designed a feature that helps restaurants understand and track their performance goals.</p>
+                </section>
+
+                <section class="project-section">
+                    <h2>Problem Framing</h2>
+                    <p>Before starting to solve anything, I wanted to take a look at the issue at hand and break it down to its root cause(s).</p>
+                    <p>We want to influence restaurants to improve their performance on their order processing application. The underlying problem is that restaurants do not have a clear understanding of how they are performing or what it means to achieve good performance on the app. This is problematic because they are not aware of how to improve, and as a result, their online business and customer reputation are negatively impacted.</p>
+                    
+                    <h3>What is a "Good Performing Restaurant"?</h3>
+                    <p>Through my research, I learned that this had not been clearly defined. Although the business was tracking many different metrics related to performance, it was important to focus on the goals restaurants have the most control over. Together with stakeholders, we defined a model of a Good Performing Restaurant which was comprised of three main areas:</p>
+                    <ul>
+                        <li>Order health</li>
+                        <li>Productivity</li>
+                        <li>Customer perception</li>
+                    </ul>
+                </section>
+
+                <section class="project-section">
+                    <h2>Solution Approach</h2>
+                    <h3>Mission Statement</h3>
+                    <p>Make model of "Good Performing Restaurant" explicit</p>
+                    
+                    <h3>Goals</h3>
+                    <ul>
+                        <li>Clearly define what it means to be a Good Performing Restaurant</li>
+                        <li>Create a dedicated metrics screen where users can track performance goals</li>
+                        <li>Highlight insights that users can take immediate action on</li>
+                    </ul>
+                </section>
+
+                <section class="project-section">
+                    <h2>Research & Benchmarking</h2>
+                    <p>To gain inspiration, I explored many different applications that have performance-related features. I noticed that all content shared the following principles:</p>
+                    <ul>
+                        <li>Simple</li>
+                        <li>Proactive</li>
+                        <li>Victorious</li>
+                        <li>Goal-oriented</li>
+                        <li>Positive</li>
+                    </ul>
+                </section>
+
+                <section class="project-section">
+                    <h2>Testing & Iteration</h2>
+                    <p>To get feedback, I shared the prototype with restaurants. I learned that customer reviews motivate them to improve their performance. Many stores regularly check reviews online or even have a physical customer comment box. I used this learning to highlight the information at the top of the screen and incentivize restaurants to regularly visit this page.</p>
+                </section>
+
+                <section class="project-section">
+                    <h2>Final Solution</h2>
+                    <p>The final design incorporates several key features:</p>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4 class="metric-title">Customer Rating</h4>
+                            </div>
+                            <div class="metric-value">4.8/5.0</div>
+                            <p class="metric-description">Average rating from customer reviews in the past 7 days</p>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h4 class="metric-title">Order Success</h4>
+                            </div>
+                            <div class="metric-value">98%</div>
+                            <p class="metric-description">Successfully completed orders without cancellations</p>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <div class="metric-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <h4 class="metric-title">Processing Time</h4>
+                            </div>
+                            <div class="metric-value">12min</div>
+                            <p class="metric-description">Average time to process and prepare orders</p>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li>Rating and reviews highlighted at the top of the screen</li>
+                        <li>Highlighted tasks users can take immediate action on</li>
+                        <li>Performance goals presented as cards with summarized data from the past 7 days (i.e., Successful orders, Decline rate)</li>
+                    </ul>
+                    
+                    <div class="media-container display-mode--large">
+                        <img src="../assets/images/projects/restaurant-dashboard/dashboard.png" 
+                             alt="Final design of Restaurant Performance Dashboard">
+                        <div class="media-caption">
+                            <p>Final design of the Restaurant Performance Dashboard</p>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <nav class="project-navigation">
+                <div class="nav-previous">
+                    <a href="ewallet.html">
+                        <i class="fas fa-arrow-left"></i>
+                        Previous Project
+                    </a>
+                </div>
+                <div class="nav-next">
+                    <a href="go-sandbox.html">
+                        <i class="fas fa-arrow-right"></i>
+                        Next Project
+                    </a>
+                </div>
+            </nav>
+        </main>
+    </div>
+</body>
+</html> 
