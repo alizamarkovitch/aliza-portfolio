@@ -6,8 +6,12 @@
   --background-color: #fff;
   --sidebar-bg: #3E4242;
   --accent-color: rgba(255, 255, 255, 0.15);
-  --font-primary: "Sora", sans-serif;
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-secondary: "Source Serif 4", serif;
+  --line-height-body: 1.6;
+  --line-height-heading-large: 1.2;
+  --line-height-heading-small: 1.4;
+  --line-height-nav: 1.5;
 }
 
 * {
@@ -19,9 +23,37 @@
 body {
   font-family: var(--font-primary);
   color: var(--text-color);
-  line-height: 1.6;
+  line-height: var(--line-height-body);
+  font-size: 16px;
+  font-weight: 400;
   background-color: var(--background-color);
   min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  line-height: var(--line-height-heading-large);
+}
+
+h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  line-height: var(--line-height-heading-small);
+}
+
+strong {
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+button, input, select, textarea {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 /* Layout */
@@ -86,8 +118,8 @@ body {
 }
 
 .profile-image {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
@@ -139,9 +171,9 @@ body {
 }
 
 .statement {
-  font-size: 2rem;
+  font-size: 2.3rem;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: var(--line-height-heading-large);
   color: var(--primary-color);
   letter-spacing: -0.02em;
   font-family: var(--font-primary);
@@ -154,7 +186,7 @@ body {
   font-weight: 200;
   color: rgba(255, 255, 255, 0.7);
   text-align: center;
-  line-height: 1.4;
+  line-height: var(--line-height-body);
   max-width: 520px;
   margin: 0;
 }
@@ -180,7 +212,7 @@ body {
   }
 
   .statement {
-    font-size: 2rem;
+    font-size: 2.3rem;
     padding: 0;
   }
   
@@ -198,7 +230,7 @@ body {
   }
 
   .profile-image {
-    margin-bottom: 24px;
+    margin: 0;
   }
 }
 
@@ -256,6 +288,7 @@ body {
   white-space: nowrap;
   border-radius: 4px;
   text-align: center;
+  line-height: var(--line-height-nav);
 }
 
 .nav-links a:hover {
@@ -286,13 +319,13 @@ body {
   overflow: hidden;
   background: var(--background-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
   text-decoration: none;
   display: block;
 }
 
 .project:hover {
-  transform: translateY(-4px);
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
 }
 
 .project-image {
@@ -306,6 +339,11 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.project:hover .project-image img {
+  transform: scale(1.05);
 }
 
 .project-info {
@@ -315,12 +353,12 @@ body {
   right: 0;
   padding: 1.25rem;
   background: rgba(255, 255, 255, 0.98);
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
+  transform: none;
+  transition: none;
 }
 
 .project:hover .project-info {
-  transform: translateY(0);
+  transform: none;
 }
 
 .project-info h3 {
@@ -333,8 +371,8 @@ body {
 .project-info p {
   font-size: 0.9rem;
   color: #2D2F30;
-  font-family: var(--font-secondary);
-  line-height: 1.4;
+  font-family: var(--font-primary);
+  line-height: var(--line-height-body);
 }
 
 /* Medium devices (768px and up) */
@@ -427,14 +465,12 @@ body {
 
   .project-info {
     position: static;
-    transform: none !important;
     background: var(--background-color);
     padding: 1.25rem;
-    opacity: 1;
   }
 
   .project:hover .project-info {
-    transform: none !important;
+    transform: none;
   }
 
   .project-info h3 {
@@ -448,8 +484,8 @@ body {
     font-size: 0.9rem;
     color: var(--text-color);
     opacity: 0.8;
-    font-family: var(--font-secondary);
-    line-height: 1.4;
+    font-family: var(--font-primary);
+    line-height: var(--line-height-body);
   }
 
   .projects-grid {
@@ -468,7 +504,7 @@ body {
   }
 
   .profile-image {
-    margin-bottom: 24px;
+    margin: 0;
   }
 
   .corner-name {
@@ -779,7 +815,7 @@ body {
 
 .about-content p {
   margin-bottom: 1.5rem;
-  line-height: 1.6;
+  line-height: var(--line-height-body);
   color: var(--text-color);
   font-size: 1.1rem;
 }
@@ -796,6 +832,7 @@ body {
   position: relative;
   color: var(--text-color);
   font-size: 1.1rem;
+  line-height: var(--line-height-body);
 }
 
 .about-content li:before {

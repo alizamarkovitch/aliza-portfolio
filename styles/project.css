@@ -1,7 +1,8 @@
 /* Project Page Styles */
 .project-content {
-    padding: 2rem;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 2rem;
 }
 
 .project-details {
@@ -11,35 +12,34 @@
 }
 
 .project-nav {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 1rem 0;
+    margin-bottom: 2rem;
 }
 
 .project-navigation {
-    max-width: 680px;
-    margin: 2rem auto;
     display: flex;
     justify-content: space-between;
-    padding: 2rem 0;
+    margin-top: 4rem;
+    padding-top: 2rem;
     border-top: 1px solid #eee;
 }
 
 .project-header {
     margin-bottom: 3rem;
-    text-align: left;
+    text-align: center;
 }
 
 .project-header h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     font-weight: 700;
-    color: #333;
+    line-height: var(--line-height-heading-large);
 }
 
 .project-subtitle {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     color: #666;
+    font-weight: 400;
+    line-height: var(--line-height-body);
 }
 
 .project-hero {
@@ -59,31 +59,32 @@
 .project-section h2 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    color: #333;
+    font-weight: 700;
+    line-height: var(--line-height-heading-large);
 }
 
 .project-section h3 {
     font-size: 1.5rem;
-    margin: 2rem 0 1rem;
-    color: #444;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: var(--line-height-heading-large);
 }
 
 .project-section p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #555;
     margin-bottom: 1.5rem;
+    font-size: 16px;
+    line-height: var(--line-height-body);
 }
 
 .project-section ul {
-    margin: 1rem 0 2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
 }
 
 .project-section li {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #555;
     margin-bottom: 0.5rem;
+    font-size: 16px;
+    line-height: var(--line-height-body);
 }
 
 .media-container {
@@ -101,35 +102,45 @@
     text-align: center;
     font-size: 0.9rem;
     color: #666;
+    line-height: var(--line-height-body);
 }
 
 .back-link {
     display: inline-flex;
     align-items: center;
-    color: #333;
+    gap: 0.5rem;
     text-decoration: none;
-    font-size: 1.1rem;
+    color: #666;
+    font-size: 16px;
+    line-height: var(--line-height-nav);
+    transition: color 0.2s ease;
 }
 
-.back-link i {
-    margin-right: 0.5rem;
+.back-link:hover {
+    color: #333;
 }
 
 .nav-previous a,
 .nav-next a {
     display: inline-flex;
     align-items: center;
-    color: #333;
+    gap: 0.5rem;
     text-decoration: none;
-    font-size: 1.1rem;
+    color: #666;
+    font-size: 16px;
+    line-height: var(--line-height-nav);
+    transition: color 0.2s ease;
 }
 
-.nav-previous i {
-    margin-right: 0.5rem;
+.nav-previous a:hover,
+.nav-next a:hover {
+    color: #333;
 }
 
-.nav-next i {
-    margin-left: 0.5rem;
+.nav-previous a.disabled,
+.nav-next a.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 blockquote {
@@ -142,6 +153,7 @@ blockquote p {
     font-style: italic;
     font-size: 1.2rem;
     color: #555;
+    line-height: var(--line-height-body);
 }
 
 blockquote footer {
@@ -204,6 +216,7 @@ blockquote footer {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     color: var(--text-color);
+    line-height: var(--line-height-heading-large);
 }
 
 .media-container.display-mode--small {
@@ -366,6 +379,7 @@ blockquote footer {
     font-weight: 600;
     color: #333;
     margin: 0;
+    line-height: var(--line-height-heading-small);
 }
 
 .metric-value {
@@ -379,7 +393,7 @@ blockquote footer {
     font-size: 0.95rem;
     color: #666;
     margin: 0;
-    line-height: 1.4;
+    line-height: var(--line-height-body);
 }
 
 /* Responsive adjustments for metrics */
