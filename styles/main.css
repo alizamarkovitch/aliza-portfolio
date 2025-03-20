@@ -845,6 +845,9 @@ button, input, select, textarea {
 .about-content h2 {
   margin-bottom: 1.5rem;
   padding-top: 20px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
 }
 
 .about-content p {
@@ -876,6 +879,17 @@ button, input, select, textarea {
   position: absolute;
   left: 0;
   color: var(--text-color);
+}
+
+.about-content a {
+  color: #0066CC;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.about-content a:hover {
+  opacity: 0.8;
 }
 
 @media (min-width: 768px) {
@@ -1051,7 +1065,7 @@ main {
 .footer-profile {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 15px;
     padding: 20px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1088,6 +1102,23 @@ main {
 .footer-profile span {
     font-size: 16px;
     font-weight: 600;
+}
+
+.footer-profile-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-profile-text .name {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.footer-profile-text .title {
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--text-color);
 }
 
 /* Social links styling */

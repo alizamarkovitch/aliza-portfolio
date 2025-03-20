@@ -8,14 +8,12 @@ function getFooterHTML(isProjectPage) {
                     <div class="footer-profile-image">
                         <img src="${basePath}assets/images/profile/profile.jpg" alt="Aliza">
                     </div>
-                    <span>Aliza</span>
+                    <div class="footer-profile-text">
+                        <span class="name">Aliza</span>
+                        <span class="title">Product Designer</span>
+                    </div>
                 </a>
-                <p>© 2024 Aliza. All rights reserved.</p>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/alizam" target="_blank" rel="noopener noreferrer" class="linkedin-link">
-                        <i class="fab fa-linkedin"></i> www.linkedin.com/in/alizam
-                    </a>
-                </div>
+                <p>© 2025 Aliza. All rights reserved.</p>
             </div>
         </footer>
     `;
