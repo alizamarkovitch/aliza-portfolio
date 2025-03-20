@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About Aliza - UX designer with 6+ years of experience in creating user-centered digital products.">
+    <meta name="description" content="About Aliza - Product Designer with 6+ years of experience in creating user-centered digital products.">
     
     <title>About - Aliza's Portfolio</title>
     
@@ -21,6 +21,12 @@
 </head>
 <body>
     <div class="layout">
+        <button class="hamburger-menu" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
         <aside class="sidebar">
             <div class="corner-name">Aliza</div>
             <div class="sidebar-content">
@@ -40,7 +46,7 @@
                 </div>
                 <nav class="navbar">
                     <div class="nav-links">
-                        <a href="index.html#work">Work</a>
+                        <a href="index.html">Work</a>
                         <a href="about.html" class="active">About</a>
                     </div>
                 </nav>
@@ -51,25 +57,24 @@
             <section class="about-section">
                 <h1>About Me</h1>
                 <div class="about-content">
-                    <p>I'm a UX designer with over 6 years of experience in creating user-centered digital products. My passion lies in solving complex problems through thoughtful design solutions that enhance user experiences.</p>
-                    
-                    <h2>My Approach</h2>
-                    <p>I believe in a holistic approach to design that combines user research, iterative prototyping, and collaborative problem-solving. My process involves:</p>
-                    <ul>
-                        <li>Deep understanding of user needs and business goals</li>
-                        <li>Data-driven decision making</li>
-                        <li>Iterative design and testing</li>
-                        <li>Close collaboration with stakeholders</li>
-                    </ul>
-                    
-                    <h2>Experience</h2>
-                    <p>Throughout my career, I've had the opportunity to work on diverse projects ranging from mobile applications to complex enterprise systems. My experience includes:</p>
-                    <ul>
-                        <li>Leading design initiatives for major product launches</li>
-                        <li>Creating and implementing design systems</li>
-                        <li>Conducting user research and usability testing</li>
-                        <li>Mentoring junior designers and collaborating with cross-functional teams</li>
-                    </ul>
+                    <p>
+                        I’m a Product Designer with over 6 years of experience crafting 
+                        user-centered digital products. I love tackling complex challenges 
+                        and turning them into intuitive, impactful solutions—whether I’m 
+                        redesigning enterprise platforms or enhancing mobile apps for 
+                        global brands.
+                      </p>
+                      <p>
+                        Beyond my work, I find creativity in horticulture and floral design. 
+                        Spending time on small farms, arranging flowers, and growing food 
+                        inspires me to stay curious, hands-on, and focused on what truly 
+                        resonates with people. 
+                        <strong>If you’d like to see more of my floral creations, feel free to 
+                        follow me on 
+                        <a href="https://www.instagram.com/YOUR-USERNAME" target="_blank">
+                          Instagram
+                        </a>.</strong>
+                      </p>
 
                     <h2>Skills & Expertise</h2>
                     <ul>
@@ -82,8 +87,34 @@
                         <li>Agile & Design Thinking</li>
                     </ul>
                 </div>
+                <h2>Let’s Connect</h2>
+                <p>
+                  Whether we’re brainstorming design ideas or chatting about how nature 
+                  can fuel innovation, I’m always excited to collaborate. Feel free 
+                  to reach out—or connect with me on 
+                  <a href="https://www.linkedin.com/in/alizam" target="_blank">LinkedIn</a>.
+                  I’d love to explore how design can make a difference for your team 
+                  or product.
+                </p>
+
             </section>
         </main>
     </div>
+
+    <script>
+        // Hamburger menu functionality
+        document.querySelector('.hamburger-menu').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.navbar').classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.navbar').classList.remove('active');
+                document.querySelector('.hamburger-menu').classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html> 
