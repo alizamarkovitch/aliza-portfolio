@@ -61,6 +61,17 @@ button, input, select, textarea {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 /* Sidebar */
@@ -82,7 +93,7 @@ button, input, select, textarea {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 280px;
+  max-width: 325px;
   position: relative;
   padding: 1rem 0;
   height: 100vh;
@@ -106,7 +117,7 @@ button, input, select, textarea {
   align-items: center;
   width: 100%;
   height: 100%;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 2rem 0;
 }
 
@@ -117,7 +128,6 @@ button, input, select, textarea {
   gap: 24px;
   margin: 0;
   max-width: 600px;
-  flex: 1;
   justify-content: center;
 }
 
@@ -272,7 +282,7 @@ button, input, select, textarea {
   padding: 1rem 0;
   position: relative;
   z-index: 10;
-  margin-top: 0;
+  margin-top: 2rem;
   display: block;
 }
 
@@ -392,6 +402,7 @@ button, input, select, textarea {
 
   .main-content {
     margin-left: 400px;
+    width: calc(100% - 400px);
     padding: 2.5rem;
   }
 
@@ -412,6 +423,7 @@ button, input, select, textarea {
 
   .main-content {
     margin-left: 460px;
+    width: calc(100% - 460px);
     padding: 3rem;
   }
 }
@@ -424,6 +436,7 @@ button, input, select, textarea {
 
   .main-content {
     margin-left: 500px;
+    width: calc(100% - 500px);
   }
 }
 
@@ -573,6 +586,7 @@ button, input, select, textarea {
 
   .main-content {
     margin-left: 0;
+    width: 100%;
     padding: 1.5rem;
   }
 
@@ -797,10 +811,7 @@ button, input, select, textarea {
 
 @media (min-width: 481px) {
   .sidebar-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
+    max-width: 325px;
   }
 
   .profile-content {
@@ -825,7 +836,7 @@ button, input, select, textarea {
   max-width: 800px;
   width: 100%;
   padding: 4rem 2rem 2rem;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .about-section h1 {
@@ -873,28 +884,44 @@ button, input, select, textarea {
 }
 
 @media (min-width: 768px) {
+  .main-content {
+    margin-left: 400px;
+    width: calc(100% - 400px);
+    padding: 2.5rem;
+  }
+
   .about-section {
-    margin-left: calc(400px + ((100% - 400px - 800px) / 2));
     padding: 4rem 2.5rem 2rem;
   }
 }
 
 @media (min-width: 1024px) {
+  .main-content {
+    margin-left: 460px;
+    width: calc(100% - 460px);
+    padding: 3rem;
+  }
+
   .about-section {
-    margin-left: calc(460px + ((100% - 460px - 800px) / 2));
     padding: 4rem 3rem 2rem;
   }
 }
 
 @media (min-width: 1440px) {
-  .about-section {
-    margin-left: calc(500px + ((100% - 500px - 800px) / 2));
+  .main-content {
+    margin-left: 500px;
+    width: calc(100% - 500px);
   }
 }
 
 @media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 1.5rem;
+  }
+
   .about-section {
-    margin: 0 auto;
     padding: 2rem 1.5rem;
   }
 }
@@ -1016,4 +1043,38 @@ button, input, select, textarea {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(40, 42, 43, .1);
+  color: var(--color-primary);
+  border: none;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-3px);
+}
+
+.scroll-to-top i {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 15px;
+    right: 15px;
+  }
 }
