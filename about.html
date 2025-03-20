@@ -50,53 +50,52 @@
                 <nav class="navbar">
                     <div class="nav-links">
                         <a href="index.html">Work</a>
-                        <a href="about.html" class="active">About</a>
+                        <a href="about.html#main" class="about-link active">About</a>
                     </div>
                 </nav>
             </div>
         </aside>
 
-        <main class="main-content">
+        <main id="main" class="main-content">
             <section class="about-section">
-                <h1>About Me</h1>
                 <div class="about-content">
+                    <h1 id="about-me">About Me</h1>
                     <p>
-                        I’m a Product Designer with 6+ years of experience building 
-                        human-centered solutions for enterprise and consumer-facing 
-                        products. My design philosophy has always been rooted in 
-                        thorough user research, rapid prototyping, and cross-functional 
-                        collaboration, ensuring that each interface I craft resonates 
+                        I'm a Product Designer with 6+ years of experience building
+                        human-centered solutions for enterprise and consumer-facing
+                        products. My design philosophy has always been rooted in
+                        thorough user research, rapid prototyping, and cross-functional
+                        collaboration, ensuring that each interface I craft resonates
                         with real-world needs.
-                      </p>
-                      <p>
-                        Throughout my career, I’ve had the privilege of shaping the 
-                        design strategy for major tech initiatives. At <strong>League</strong>, 
-                        I improved customer support and operational efficiency by 
-                        launching a Customer Support Portal—cutting resolution times 
-                        by 35% and increasing user satisfaction by 20%. I also led the 
-                        design of a No-Code Administrative Console that streamlined 
+                    </p>
+                    <p>
+                        Throughout my career, I've had the privilege of shaping the
+                        design strategy for major tech initiatives. At <strong>League</strong>,
+                        I improved customer support and operational efficiency by
+                        launching a Customer Support Portal—cutting resolution times
+                        by 35% and increasing user satisfaction by 20%. I also led the
+                        design of a No-Code Administrative Console that streamlined
                         client workflows and boosted production efficiency by 40%.
-                      </p>
-                      <p>
-                        Previously at <strong>Accenture Song</strong>, I owned end-to-end 
-                        design for high-profile iOS and web apps for brands like Tim Hortons 
-                        and TD Bank. My work there involved transforming business objectives 
-                        into engaging user journeys, leveraging design thinking and agile 
-                        methodologies to deliver impactful results. Before that, I helped 
-                        <strong>Delivery Hero</strong> revamp its restaurant order-processing 
-                        app—lowering order failure rates by 26% and enhancing the experience 
+                    </p>
+                    <p>
+                        Previously at <strong>Accenture Song</strong>, I owned end-to-end
+                        design for high-profile iOS and web apps for brands like Tim Hortons
+                        and TD Bank. My work there involved transforming business objectives
+                        into engaging user journeys, leveraging design thinking and agile
+                        methodologies to deliver impactful results. Before that, I helped
+                        <strong>Delivery Hero</strong> revamp its restaurant order-processing
+                        app—lowering order failure rates by 26% and enhancing the experience
                         for over 500,000 global restaurant partners.
-                      </p>
-                      <p>
-                        When I’m not refining user flows or iterating on prototypes, 
-                        you’ll likely find me immersed in horticulture and floral design. 
-                        Spending time on small farms and creating bouquets keeps me grounded 
-                        and reminds me of the patience and empathy needed to nurture great 
-                        ideas. This hands-on passion for growth directly informs my approach 
-                        to design: a belief that every product needs consistent care, 
+                    </p>
+                    <p>
+                        When I'm not refining user flows or iterating on prototypes,
+                        you'll likely find me immersed in horticulture and floral design.
+                        Spending time on small farms and creating bouquets keeps me grounded
+                        and reminds me of the patience and empathy needed to nurture great
+                        ideas. This hands-on passion for growth directly informs my approach
+                        to design: a belief that every product needs consistent care,
                         attention, and a little creativity to truly flourish.
-                      </p>
-                   
+                    </p>
 
                     <h2>Let's Connect</h2>
                     <p>
@@ -126,6 +125,26 @@
                 document.querySelector('.hamburger-menu').classList.remove('active');
             });
         });
+
+        // Handle about link behavior based on screen size
+        const aboutLink = document.querySelector('.about-link');
+        if (aboutLink) {
+            aboutLink.addEventListener('click', (e) => {
+                // Only prevent anchor on desktop
+                if (window.innerWidth > 480) {
+                    e.preventDefault();
+                    window.location.href = 'about.html';
+                }
+            });
+        }
+
+        // If we arrived with a hash in the URL and we're on mobile, scroll to it
+        if (window.location.hash === '#about-me' && window.innerWidth <= 480) {
+            const aboutMeSection = document.getElementById('about-me');
+            if (aboutMeSection) {
+                aboutMeSection.scrollIntoView();
+            }
+        }
     </script>
 </body>
 

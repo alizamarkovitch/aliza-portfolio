@@ -58,7 +58,7 @@
                 <nav class="navbar">
                     <div class="nav-links">
                         <a href="#work" class="active">Work</a>
-                        <a href="about.html">About</a>
+                        <a href="about.html#main" class="about-link">About</a>
                     </div>
                 </nav>
                 <button class="hamburger-menu" aria-label="Toggle navigation menu">
@@ -191,6 +191,18 @@
           document.querySelector('.navbar').classList.remove('active');
         });
       });
+
+      // Handle about link behavior based on screen size
+      const aboutLink = document.querySelector('.about-link');
+      if (aboutLink) {
+          aboutLink.addEventListener('click', (e) => {
+              // Only prevent anchor on desktop
+              if (window.innerWidth > 480) {
+                  e.preventDefault();
+                  window.location.href = 'about.html';
+              }
+          });
+      }
     </script>
 </body>
 </html>

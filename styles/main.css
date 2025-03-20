@@ -253,6 +253,10 @@ button, input, select, textarea {
     margin-bottom: 2rem;
     max-width: 100%;
   }
+
+  body {
+    scroll-padding-top: 4rem; /* Increased padding for better spacing */
+  }
 }
 
 .social-links {
@@ -652,6 +656,10 @@ button, input, select, textarea {
     top: 1rem;
     right: 1rem;
     z-index: 1001;
+  }
+
+  body {
+    scroll-padding-top: 4rem; /* Increased padding for better spacing */
   }
 }
 
