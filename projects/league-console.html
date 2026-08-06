@@ -1,626 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="League Console Project - Empowering autonomous configuration for business users">
-
-    <title>League Console - Aliza's Portfolio</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../assets/favicon.png">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../styles/main.css">
-    <link rel="stylesheet" href="../styles/project.css">
-
-    <style>
-        :root {
-            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            --line-height-body: 1.6;
-            --line-height-heading-large: 1.2;
-            --line-height-heading-small: 1.4;
-            --line-height-nav: 1.5;
-        }
-
-        body {
-            font-family: var(--font-primary);
-            font-size: 16px;
-            line-height: var(--line-height-body);
-            font-weight: 400;
-        }
-
-        h1, h2, h3 {
-            font-family: var(--font-primary);
-            font-weight: 700;
-            line-height: var(--line-height-heading-large);
-        }
-
-        h4, h5, h6 {
-            font-family: var(--font-primary);
-            font-weight: 700;
-            line-height: var(--line-height-heading-small);
-        }
-
-        strong {
-            font-weight: 600;
-        }
-
-        .project-nav, .project-navigation, button {
-            font-family: var(--font-primary);
-            line-height: var(--line-height-nav);
-        }
-
-        .layout {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .project-content {
-            flex: 1;
-        }
-
-        .project-footer {
-            margin-top: 4rem;
-            padding: 2rem 0;
-            background-color: #f8f9fa;
-            text-align: center;
-            width: 100%;
-            font-size: 16px;
-        }
-
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .footer-content p {
-            margin-bottom: 1rem;
-            color: #2d3436;
-            line-height: var(--line-height-body);
-        }
-
-        .linkedin-link {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
-            font-weight: bold;
-            color: #0A66C2;
-        }
-
-        .linkedin-link img {
-            width: 20px;
-            margin-right: 5px;
-            vertical-align: middle;
-        }
-
-        .linkedin-link:hover {
-            color: #004182;
-        }
-
-        .media-container.display-mode--small {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .media-container.display-mode--large {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .slideshow-container {
-            position: relative;
-            margin: 2rem 0;
-            overflow: hidden;
-            background: white;
-        }
-
-        .slides {
-            position: relative;
-            height: 500px; /* Reduced to just image height */
-            background: white;
-        }
-
-        .slide {
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transform: translateX(5px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-            visibility: hidden;
-        }
-
-        .slide.active {
-            opacity: 1;
-            transform: translateX(0);
-            pointer-events: auto;
-            z-index: 1;
-            visibility: visible;
-        }
-
-        .media-container {
-            margin: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            background: white;
-        }
-
-        .slideshow-container .media-container {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .image-wrapper {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: white;
-        }
-
-        .slideshow-container .media-container img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-        }
-
-        .slideshow-footer {
-            background: white;
-            padding: 1rem 0;
-            border-top: 1px solid #eee;
-        }
-
-        .captions {
-            position: relative;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .caption {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            visibility: hidden;
-        }
-
-        .caption.active {
-            position: relative;
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .caption .text-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            line-height: var(--line-height-body);
-        }
-
-        .slideshow-dots {
-            text-align: center;
-            padding-top: 0.5rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .slideshow-prev, .slideshow-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.4);
-            color: white;
-            padding: 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 2;
-            opacity: 0.6;
-        }
-
-        .slideshow-prev:hover, .slideshow-next:hover {
-            background: rgba(0, 0, 0, 0.6);
-            opacity: 0.8;
-        }
-
-        .slideshow-prev {
-            left: 20px;
-        }
-
-        .slideshow-next {
-            right: 20px;
-        }
-
-        .slideshow-dots {
-            text-align: center;
-            padding: 1rem 0;
-            position: relative;
-            z-index: 2;
-            background: white;
-        }
-
-        .dot {
-            height: 8px;
-            width: 8px;
-            margin: 0 5px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-            opacity: 0.6;
-        }
-
-        .dot:hover {
-            opacity: 0.8;
-        }
-
-        .dot.active {
-            background-color: #717171;
-            opacity: 1;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>League Console — Aliza Markovitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/site.css">
 </head>
-
 <body>
-    <div class="layout">
-        <main class="project-content">
-            <nav class="project-nav">
-                <a href="../index.html" class="back-link">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Projects
-                </a>
-            </nav>
 
-            <article class="project-details">
-                <header class="project-header">
-                    <h1>League Console</h1>
-                    <p class="project-subtitle">Empowering Business Users with Autonomous Configuration</p>
-                </header>
-
-                <div class="project-hero">
-                    <img src="../assets/images/projects/league-console/preview.png"
-                        alt="League Console Project Overview">
-                </div>
-
-                <section class="project-section">
-                    <h2>Overview</h2>
-                    <p>League is a <strong>healthcare company in Canada</strong> that develops solutions empowering insurance providers to deliver exceptional digital health experiences.
-                    As the <strong>Lead Designer</strong> for this initiative, I was responsible for designing the
-                        end-to-end configuration interface. I collaborated closely with <strong>engineers and product
-                            managers</strong> to align on technical feasibility while ensuring a seamless user
-                        experience.</p>
-                </section>
-
-                <section class="project-section">
-                    <h2>The Challenge</h2>
-                    <p>League's goal was to <strong>enable clients to scale efficiently and work
-                            autonomously</strong>. However, the <strong>existing configuration process</strong> was
-                        fragmented, requiring technical expertise, slowing down deployments, and <strong>impacting
-                            client satisfaction</strong>. Our objective: <strong>build a self-service platform</strong>
-                        that reduced reliance on internal teams.</p>
-                </section>
-
-                <section class="project-section">
-                    <h2>My Role & Team</h2>
-                    <p>As <strong></strong>Lead Designer</strong> in the Content & Configuration Tools pod, I:
-                    <ul>
-                        <li>Designed the <strong>configuration interface</strong>, reducing setup time by
-                            <strong>40%</strong>.</li>
-                        <li>Conducted <strong>user research & usability testing</strong>.</li>
-                        <li>Worked with a <strong>Product Manager & developers</strong>, reporting to the
-                            <strong>Director of Product Design</strong>.</li>
-                    </ul>
-                    </p>
-                </section>
-
-                <section class="project-section">
-                    <h2>Design Process</h2>
-                    <div class="process-steps">
-                        <div class="process-step">
-                            <i class="far fa-compass process-icon"></i>
-                            <h3>Discovery</h3>
-                            <p>Conducted user research through interviews with internal teams to identify pain points in
-                                the existing configuration process.</p>
-                        </div>
-                        <div class="process-step">
-                            <i class="far fa-lightbulb process-icon"></i>
-                            <h3>Ideation</h3>
-                            <p>Developed a scalable information architecture and task flows to simplify configuration
-                                and enhance usability.</p>
-                        </div>
-                        <div class="process-step">
-                            <i class="far fa-circle-check process-icon"></i>
-                            <h3>Validation</h3>
-                            <p>Tested prototypes with users, gathering insights to refine navigation, preview
-                                functionality, and overall experience.</p>
-                        </div>
-                        <div class="process-step">
-                            <i class="far fa-window-maximize process-icon"></i>
-                            <h3>Implementation</h3>
-                            <p>Collaborated closely with developers to align on design specifications and ensure a
-                                seamless build process.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="project-section">
-                    <h2>Discovery</h2>
-                    <p><strong>Conducted user research</strong>: Interviewed 9 primary users across 5 internal teams to identify pain points. <strong>Key Findings</strong>:</p>
-                    <ul>
-                        <li><strong>Dependence on coding</strong> slowed adoption.</li>
-                        <li><strong>No preview/validation before publishing</strong> led to errors.</li>
-                    </ul>
-
-                    <div class="media-container display-mode--small">
-                        <img src="../assets/images/projects/league-console/affinity-map.png"
-                            alt="Affinity Map of user research insights" class="aspect-ratio-undefined">
-                        <div class="media-caption">
-                            <div class="text-container">
-                                <p>Affinity Map of user research insights collected during the discovery phase</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="project-section">
-                    <h2>Ideation</h2>
-                    <p><strong>Information Architecture</strong>: Created a scalable global framework supporting</p>
-                    <p><strong>Task Flow Creation</strong>: Focused on the 'Create & Edit a Rewards Activity' use</p>
-                    <p><strong>UI Exploration</strong>: Used whiteboarding and Figma to test navigation & interaction</p>
-
-                    <div class="slideshow-container">
-                        <div class="slides">
-                            <div class="slide">
-                                <div class="media-container">
-                                    <div class="image-wrapper">
-                                        <img src="../assets/images/projects/league-console/information-architecture.png"
-                                            alt="League Console information architecture diagram">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="media-container">
-                                    <div class="image-wrapper">
-                                        <img src="../assets/images/projects/league-console/task-flow.png"
-                                            alt="Task flow for the 'Create & Edit a Rewards Activity' use case">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="media-container">
-                                    <div class="image-wrapper">
-                                        <img src="../assets/images/projects/league-console/navigation-exploration.png"
-                                            alt="Navigation design exploration in Figma">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="slideshow-prev">&#10094;</button>
-                        <button class="slideshow-next">&#10095;</button>
-                        <div class="slideshow-footer">
-                            <div class="captions">
-                                <div class="caption">
-                                    <div class="text-container">
-                                        <p>League Console information architecture diagram</p>
-                                    </div>
-                                </div>
-                                <div class="caption">
-                                    <div class="text-container">
-                                        <p>Task flow for the 'Create & Edit a Rewards Activity' use case</p>
-                                    </div>
-                                </div>
-                                <div class="caption">
-                                    <div class="text-container">
-                                        <p>Image of two approaches I explored for the navigation in Figma</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slideshow-dots"></div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="project-section">
-                    <h2>Validation</h2>
-                    <p><strong>Prototype Testing & Feedback Sessions</strong></p>
-                    <ul>
-                        <li><strong>Liked</strong>: Live preview & helper text.</li>
-                        <li><strong>Valuable</strong>: Rich-text editor for no-code configuration. <strong>Actionable</strong></li>
-                        <li>Users<strong> wanted collapsible navigation trees.</strong></li>
-                        <li>The <strong>save confirmation approach</strong> was unclear.</li>
-                        <li>Preference for <strong>Preview component to be independent</strong> from Property Editor.</li>
-                    </ul>
-                    <p><strong>Usability Testing Iterations</strong>:</p>
-                    <ul>
-                        <li>Initially tested <strong>two navigation layouts</strong>: Sidebar vs. Card-Based.</li>
-                        <li><strong>80% of testers preferred the Sidebar Layout</strong>, leading to refinements.</li>
-                    </ul>
-
-                    <div class="media-container display-mode--small">
-                        <img src="../assets/images/projects/league-console/prototype.png" alt="League Console prototype"
-                            class="aspect-ratio-undefined">
-                        <div class="media-caption">
-                            <div class="text-container">
-                                <p>Image of prototype from user testing</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="project-section">
-                    <h2>Implementation</h2>
-                    <p><strong>Collaborated with Developers</strong>: Ensured alignment on specifications.
-                        <strong>Created Documentation & Guides</strong>: Supported onboarding for internal users.</p>
-                    
-                    <div class="slideshow-container">
-                        <div class="slides">
-                            <div class="slide">
-                                <div class="media-container">
-                                    <div class="image-wrapper">
-                                        <img src="../assets/images/projects/league-console/documentation.png"
-                                            alt="Design documentation for development team">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slide">
-                                <div class="media-container">
-                                    <div class="image-wrapper">
-                                        <img src="../assets/images/projects/league-console/documentation-screens.png"
-                                            alt="Implementation screens and components">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="slideshow-prev">&#10094;</button>
-                        <button class="slideshow-next">&#10095;</button>
-                        <div class="slideshow-footer">
-                            <div class="captions">
-                                <div class="caption">
-                                    <div class="text-container">
-                                        <p>Design documentation for development team</p>
-                                    </div>
-                                </div>
-                                <div class="caption">
-                                    <div class="text-container">
-                                        <p>Implementation screens and component specifications</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slideshow-dots"></div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="project-section">
-                    <h2>Impact & Results</h2>
-                    <p><strong>40% reduction</strong> in admin setup time <strong>Improved adoption</strong> by non-technical users <strong>Scalable framework</strong> for future expansion</p>
-                    <div class="media-container display-mode--large">
-                        <img src="../assets/images/projects/league-console/final-design.png"
-                            alt="Final design of the League Console" class="aspect-ratio-undefined">
-                    </div>
-                </section>
-
-                <section class="project-section">
-                    <h2>Next Steps & Future Enhancements</h2>
-                    <ul>
-                        <li><strong>Templates</strong> for streamlined content creation.</li>
-                        <li>Enhanced validation in Object Tree for error prevention.</li>
-                        <li>Asset management system to reduce duplication.</li>
-                    </ul>
-                </section>
-
-                <section class="project-section">
-                    <h2>Conclusion</h2>
-                    <p>The <strong>League Console transformed the configuration process</strong>, empowering business
-                        users with autonomy while <strong>improving efficiency & reducing technical barriers</strong>.
-                        This project reinforced my passion for designing <strong>intuitive, scalable, and
-                            user-centered enterprise tools</strong>.
-                    </p>
-                </section>
-            </article>
-
-            <nav class="project-navigation">
-                <div class="nav-previous">
-                    <a href="#" class="disabled">
-                        <i class="fas fa-arrow-left"></i>
-                        Previous Project
-                    </a>
-                </div>
-                <div class="nav-next">
-                    <a href="restaurant-delivery.html">
-                        Next Project
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </nav>
-        </main>
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="../index.html" class="nav-name">Aliza Markovitch</a>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../about.html">About</a>
+      <a href="../resume.html">Résumé</a>
+      <a href="mailto:alizamarkovitch@gmail.com" class="nav-cta">Get in touch</a>
     </div>
+  </div>
+</nav>
 
-    <div id="imageModal" class="modal">
-        <img class="modal-content" id="modalImage">
-        <div id="modalCaption"></div>
+<div class="container">
+
+  <header class="hero">
+    <div class="hero-meta">
+      <span class="hero-tag">League</span>
+      <span class="hero-dot"></span>
+      <span class="hero-tag">2022–2024</span>
     </div>
+    <h1 class="hero-title">Removing engineering as a bottleneck for configuration</h1>
+    <p class="hero-subtitle">League Console gave non-technical business teams the power to configure rewards activities and program logic themselves — without turning every configuration option into a chance to break production.</p>
+    <figure class="shot">
+      <img src="../assets/images/projects/league-console/preview.png" alt="League Console overview">
+    </figure>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-value">40%</div><div class="stat-label">Reduction in admin setup time</div></div>
+      <div class="stat"><div class="stat-value">9</div><div class="stat-label">Users usability-tested</div></div>
+      <div class="stat"><div class="stat-value">5</div><div class="stat-label">Internal teams involved</div></div>
+      <div class="stat"><div class="stat-value">80%</div><div class="stat-label">Preferred sidebar navigation</div></div>
+    </div>
+  </header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const slideshows = document.querySelectorAll('.slideshow-container');
-            
-            slideshows.forEach(slideshow => {
-                const slides = slideshow.querySelectorAll('.slide');
-                const captions = slideshow.querySelectorAll('.caption');
-                const prev = slideshow.querySelector('.slideshow-prev');
-                const next = slideshow.querySelector('.slideshow-next');
-                const dots = slideshow.querySelector('.slideshow-dots');
-                let currentSlide = 0;
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">01 — Problem</span>
+      <h2 class="section-title">Every configuration change went through engineering</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>Business users who owned League's rewards programs couldn't create or edit a rewards activity without filing a ticket and waiting on engineering. That made engineering a permanent bottleneck for work that had nothing to do with code — and made the business teams dependent on a queue they didn't control.</p>
+        <p>League Console set out to close that gap: an end-to-end configuration platform that let non-technical teams own their own configuration, without needing engineering in the loop for routine changes.</p>
+      </div>
+    </div>
+  </section>
 
-                // Create dots
-                slides.forEach((_, i) => {
-                    const dot = document.createElement('span');
-                    dot.className = 'dot';
-                    dot.addEventListener('click', () => showSlide(i));
-                    dots.appendChild(dot);
-                });
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">02 — Tension</span>
+      <h2 class="section-title">Configuration power vs. trust in what you're about to publish</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>The hard part wasn't exposing configuration options — it was exposing enough of them to be genuinely useful, without the interface becoming something a non-technical user was afraid to touch. Give too little control and the tool doesn't solve the original problem. Give too much, unscaffolded, and people either make mistakes in production or stop trusting themselves to use it at all.</p>
+        <div class="callout">
+          <p>"The gap wasn't just capability — it was confidence. People didn't trust themselves to publish something correctly, because nothing showed them what they were about to publish."</p>
+        </div>
+        <figure class="shot">
+          <img src="../assets/images/projects/league-console/affinity-map.png" alt="Affinity map of user research insights">
+          <figcaption>Affinity map of user research insights from the discovery interviews</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
 
-                // Initialize first slide and dot
-                showSlide(0);
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">03 — Testing</span>
+      <h2 class="section-title">Navigation, tested head to head</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>Navigation was where this tension showed up most concretely. I tested two layouts head to head across 9 users from 5 internal teams: a sidebar-based navigation and a card-based one. The sidebar won decisively — 80% of participants preferred it, largely because it kept the full structure of a configuration visible at all times, rather than hiding it behind a card the user had already navigated away from.</p>
+        <p>The bigger unlock, though, wasn't navigation at all — it was a live preview panel that showed exactly what a change would look like before it published. Live preview and inline helper text did more to build trust in the platform than any amount of added flexibility in the configuration options themselves.</p>
+      </div>
+    </div>
+  </section>
 
-                // Previous button
-                prev.addEventListener('click', () => {
-                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                    showSlide(currentSlide);
-                });
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">04 — Outcome</span>
+      <h2 class="section-title">40% faster setup, and a platform teams trusted</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>League Console shipped with a scalable information architecture, live-preview validation, and the sidebar navigation pattern the research pointed to — reducing admin setup time by 40% in usability testing with internal teams, and removing engineering from the loop for the routine configuration work that used to sit in their queue.</p>
+      </div>
+    </div>
+  </section>
 
-                // Next button
-                next.addEventListener('click', () => {
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    showSlide(currentSlide);
-                });
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">05 — Reflection</span>
+      <h2 class="section-title">Where to spend design effort</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>It would have been easy to over-invest in making the power-user paths maximally flexible, since that's where the interesting configuration logic lived. But the research was clear that the highest-leverage work was making the most common path — creating and editing a single rewards activity — feel simple enough that someone would trust it the first time, without help.</p>
+      </div>
+    </div>
+  </section>
 
-                function showSlide(n) {
-                    slides.forEach(slide => slide.classList.remove('active'));
-                    captions.forEach(caption => caption.classList.remove('active'));
-                    const dotElements = dots.querySelectorAll('.dot');
-                    dotElements.forEach(dot => dot.classList.remove('active'));
-                    
-                    slides[n].classList.add('active');
-                    captions[n].classList.add('active');
-                    dotElements[n].classList.add('active');
-                    currentSlide = n;
-                }
-            });
-        });
-    </script>
-    <script src="../scripts/modal.js"></script>
-    <script src="../scripts/scroll-to-top.js"></script>
-    <script src="../scripts/load-footer.js"></script>
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <span class="footer-note">© 2026 Aliza Markovitch</span>
+    <nav class="footer-nav">
+      <a href="support-portal.html">Next project →</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+  <script src="../js/main.js"></script>
 </body>
-
 </html>
