@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Résumé — Aliza Markovitch</title>
+<meta name="description" content="Aliza Markovitch — Senior Product Designer, 7+ years across banking, healthcare, and large-scale marketplaces.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/site.css">
+<style>
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+  .menu-toggle span { width: 22px; height: 2px; background: var(--black); transition: transform 0.2s ease, opacity 0.2s ease; }
+  .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.active span:nth-child(2) { opacity: 0; }
+  .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (max-width: 700px) {
+    .menu-toggle { display: flex; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: flex-start; gap: 4px; background: var(--bg); border-bottom: 1px solid var(--border); padding: 16px 32px 24px; }
+    .nav-links.active { display: flex; }
+    .nav-links a { padding: 10px 0; width: 100%; }
+    nav.site-nav { position: relative; }
+  }
+
+  /* ---- RESUME PAGE (screen) ---- */
+  .resume-toolbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 40px 0 8px;
+  }
+  .resume-toolbar h1 {
+    font-family: 'Fraunces', serif; font-size: 30px; font-weight: 500; letter-spacing: -0.5px;
+  }
+  .print-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--black); color: var(--white); border: none;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+    padding: 11px 18px; border-radius: 6px; cursor: pointer;
+  }
+  .print-btn:hover { background: var(--accent); }
+
+  .resume-sheet {
+    background: var(--white); border: 1px solid var(--border); border-radius: 8px;
+    padding: 56px 64px; margin: 24px 0 80px;
+  }
+  .r-header { border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 28px; }
+  .r-name { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .r-contact { font-size: 13.5px; color: var(--mid); }
+  .r-contact a { color: var(--accent); }
+  .r-contact span.sep { color: var(--border); margin: 0 8px; }
+
+  .r-section { margin-bottom: 28px; }
+  .r-section:last-child { margin-bottom: 0; }
+  .r-section-title {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid var(--accent-soft);
+  }
+  .r-summary { font-size: 14.5px; color: var(--mid); line-height: 1.7; }
+
+  .r-job { margin-bottom: 20px; }
+  .r-job:last-child { margin-bottom: 0; }
+  .r-job-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px; margin-bottom: 2px; }
+  .r-job-title { font-size: 15px; font-weight: 600; color: var(--black); }
+  .r-job-meta { font-size: 12.5px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+  .r-job-org { font-size: 13.5px; color: var(--mid); font-style: italic; margin-bottom: 8px; }
+  .r-job ul { padding-left: 18px; }
+  .r-job li { font-size: 13.5px; color: var(--mid); line-height: 1.65; margin-bottom: 6px; }
+  .r-job li:last-child { margin-bottom: 0; }
+
+  .r-edu-row { display: flex; justify-content: space-between; font-size: 14px; color: var(--mid); }
+  .r-edu-row strong { color: var(--black); }
+
+  .r-skills-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .r-skill-cat { font-size: 12px; font-weight: 600; color: var(--black); margin-bottom: 6px; }
+  .r-skill-list { font-size: 13px; color: var(--mid); line-height: 1.6; }
+  @media (max-width: 700px) {
+    .resume-sheet { padding: 32px 24px; }
+    .r-skills-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---- PRINT ---- */
+  @media print {
+    nav.site-nav, footer, .resume-toolbar, .archive-note { display: none !important; }
+    body { background: #fff; }
+    .container { max-width: 100%; padding: 0; margin: 0; }
+    .resume-sheet {
+      border: none; border-radius: 0; padding: 0; margin: 0;
+      box-shadow: none;
+    }
+    .r-job, .r-section { break-inside: avoid; }
+    @page { margin: 0.6in; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-name">Aliza Markovitch</a>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="about.html">About</a>
+      <a href="resume.html">Résumé</a>
+      <a href="mailto:alizamarkovitch@gmail.com" class="nav-cta">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="resume-toolbar">
+    <h1>Résumé</h1>
+    <button class="print-btn" onclick="window.print()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+      Print / Save as PDF
+    </button>
+  </div>
+
+  <div class="resume-sheet">
+    <div class="r-header">
+      <div class="r-name">Aliza Markovitch</div>
+      <div class="r-contact">
+        <a href="mailto:alizamarkovitch@gmail.com">alizamarkovitch@gmail.com</a>
+        <span class="sep">|</span>647-395-8522
+        <span class="sep">|</span><a href="https://www.linkedin.com/in/alizam/">linkedin.com/in/alizam</a>
+        <span class="sep">|</span><a href="https://alizamarkovitch.com">alizamarkovitch.com</a>
+      </div>
+    </div>
+
+    <div class="r-section">
+      <div class="r-section-title">Summary</div>
+      <p class="r-summary">Senior Product Designer with 7+ years turning ambiguous, rules-heavy problems into clear direction — across banking, healthcare, and large-scale marketplaces. I'm at my best when the hard part isn't the interface: it's defining what the actual problem is, building the case for a better mental model, and negotiating trade-offs across product, engineering, and leadership to get there.</p>
+    </div>
+
+    <div class="r-section">
+      <div class="r-section-title">Experience</div>
+
+      <div class="r-job">
+        <div class="r-job-header">
+          <span class="r-job-title">Senior Product Designer (Contract)</span>
+          <span class="r-job-meta">May 2025 – Present</span>
+        </div>
+        <div class="r-job-org">Royal Bank of Canada · Toronto</div>
+        <ul>
+          <li>Ramped independently across 3 teams in 18 months — Personal Banking, Business Banking, and Credit Cards & Deposit Accounts — with no formal onboarding support, building working context fast enough to contribute immediately on each.</li>
+          <li>Led design of bringing joint account opening online for the first time — previously branch-only — reframing the acquisition flow's mental model right as the bank introduced multi-product opening, taking the flow from one person opening one account to multiple people opening multiple accounts.</li>
+          <li>Led exploration of 3 competing UX architectures for account ownership configuration, presenting trade-offs to leadership and advocating a scalable direction for multi-account applications.</li>
+          <li>Sustained cross-functional alignment across product, engineering, legal, and platform teams through two major pivots, including a "single sales rail" unification spanning prospect, existing-client, and advisor-assisted flows.</li>
+          <li>Influenced design practice across 20+ designers by advocating for shared patterns and delivery norms.</li>
+        </ul>
+      </div>
+
+      <div class="r-job">
+        <div class="r-job-header">
+          <span class="r-job-title">Product Designer</span>
+          <span class="r-job-meta">June 2022 – July 2024</span>
+        </div>
+        <div class="r-job-org">League · Toronto, ON</div>
+        <ul>
+          <li>Led design of the Customer Support Portal, replacing a workaround where support agents logged directly into member accounts to resolve inquiries — eliminating that privacy/security risk with a dedicated, secure interface for 30+ client teams.</li>
+          <li>Led design of League Console, an end-to-end configuration platform removing engineering as a bottleneck for non-technical business users — balancing configuration power with usability through a scalable information architecture and live-preview validation, reducing admin setup time by 40% (usability-tested with internal teams).</li>
+          <li>Delivered Optum mobile onboarding — flows, caregiver management, messaging — for a clinical partner rollout.</li>
+        </ul>
+      </div>
+
+      <div class="r-job">
+        <div class="r-job-header">
+          <span class="r-job-title">Experience Designer</span>
+          <span class="r-job-meta">April 2021 – June 2022</span>
+        </div>
+        <div class="r-job-org">Accenture Song · Toronto, ON</div>
+        <ul>
+          <li>Led design of the Scan & Pay feature for the Tim Hortons app redesign — consolidating payment and rewards redemption into a single scan, benchmarked against QSR competitors.</li>
+          <li>Designed end-to-end iOS app experiences for TD Bank, improving usability and accessibility of customer-facing interfaces.</li>
+          <li>Conducted usability testing across client engagements to inform design decisions.</li>
+        </ul>
+      </div>
+
+      <div class="r-job">
+        <div class="r-job-header">
+          <span class="r-job-title">Product Designer</span>
+          <span class="r-job-meta">August 2018 – March 2021</span>
+        </div>
+        <div class="r-job-org">Delivery Hero SE · Berlin, Germany</div>
+        <ul>
+          <li>Led UX research and redesign of Go Delivery, an order management platform used by 500K+ restaurants worldwide — including field research across 12 locations in Malaysia.</li>
+          <li>Delivered a swimlane-based order management system, preferred by 85% of users in field testing, and unified mobile and web into one consistent experience.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="r-section">
+      <div class="r-section-title">Education</div>
+      <div class="r-edu-row">
+        <span><strong>Bachelor of Design</strong> · Ryerson University</span>
+        <span>Toronto, ON · 2016</span>
+      </div>
+    </div>
+
+    <div class="r-section">
+      <div class="r-section-title">Skills</div>
+      <div class="r-skills-grid">
+        <div>
+          <div class="r-skill-cat">Design &amp; UX</div>
+          <div class="r-skill-list">Problem definition, requirements gathering, workflow design, information architecture, usability testing</div>
+        </div>
+        <div>
+          <div class="r-skill-cat">Strategy &amp; Influence</div>
+          <div class="r-skill-list">Cross-functional negotiation, stakeholder alignment, feature prioritization, research synthesis</div>
+        </div>
+        <div>
+          <div class="r-skill-cat">Tools</div>
+          <div class="r-skill-list">Figma, Miro, Jira, Confluence, Adobe Creative Suite</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <span class="footer-note">© 2026 Aliza Markovitch</span>
+    <nav class="footer-nav">
+      <a href="index.html#work">Work</a>
+      <a href="mailto:alizamarkovitch@gmail.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

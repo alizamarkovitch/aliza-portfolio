@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rethinking Joint Accounts — Aliza Markovitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/site.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="../index.html" class="nav-name">Aliza Markovitch</a>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="../index.html#work">Work</a>
+      <a href="../about.html">About</a>
+      <a href="../resume.html">Résumé</a>
+      <a href="mailto:alizamarkovitch@gmail.com" class="nav-cta">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="hero">
+    <div class="hero-meta">
+      <span class="hero-tag">Royal Bank of Canada</span>
+      <span class="hero-dot"></span>
+      <span class="hero-tag">2025–Present</span>
+    </div>
+    <h1 class="hero-title">From one person, one account — to many people, many accounts</h1>
+    <p class="hero-subtitle">Joint account opening had only ever happened in branch. Bringing it online meant reframing the acquisition flow's entire mental model — right as the bank was introducing multi-product opening at the same time, compounding the complexity in both directions at once.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-value">3</div><div class="stat-label">Competing UX architectures</div></div>
+      <div class="stat"><div class="stat-value">3</div><div class="stat-label">Teams ramped in 18 months</div></div>
+      <div class="stat"><div class="stat-value">20+</div><div class="stat-label">Designers influenced</div></div>
+      <div class="stat"><div class="stat-value">4</div><div class="stat-label">Functions aligned</div></div>
+    </div>
+  </header>
+
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">01 — Context</span>
+      <h2 class="section-title">Joining mid-flight, across three teams</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>I joined RBC as a contractor and ramped independently across three teams in 18 months — Personal Banking, Business Banking, and Credit Cards & Deposit Accounts — with no formal onboarding support. This case study covers the account-ownership work: bringing joint account opening online for the first time. Before this, opening a joint account meant going into a branch — it had no digital path at all.</p>
+        <p>Digitizing it wasn't a matter of translating an existing branch process into a web form. The online acquisition flow had only ever been built around one assumption: one person, opening one account. Joint ownership didn't fit into that shape — it needed a mental model the flow had never had to support before.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">02 — The reframe</span>
+      <h2 class="section-title">Two dimensions of complexity, at the same time</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>This project landed at a specific, harder moment: the bank was simultaneously introducing multi-product account opening — letting one applicant open several accounts in a single session. So the acquisition flow needed to absorb two new dimensions at once, not sequentially. Ownership type (who's on the account) and account multiplicity (how many accounts) both had to be designed into the same flow, and each affected how the other should work. The flow had to go from <strong>one person opening one account</strong> to <strong>multiple people opening multiple accounts</strong> — without the experience feeling like two separate features bolted together.</p>
+        <p>Once I mapped it out this way, the underlying question became clearer: what's the smallest, most honest model of ownership that still scales cleanly across any number of accounts? Looking at what actually happens when someone opens a joint account, it isn't really a distinct product from a sole account — it's someone opening an account and optionally inviting another person onto it. If that person never accepts, the account just stays sole. There's no other fundamental difference between the two — so a model that treated "joint" as an optional layer, rather than a separate pathway, was the one piece that could scale across both new dimensions at once.</p>
+        <div class="callout">
+          <p>"Sole is the default. Joint is just a benefit you layer on top."</p>
+        </div>
+        <p>This wasn't a new idea for the bank — online banking already used this exact model for adding a co-applicant to an existing account, no sole/joint decision required. I proposed applying the same pattern here: <strong>sole by default, joint as an optional invite</strong>, validated against that existing, proven precedent rather than introduced as something novel and unproven.</p>
+        <div class="diagram">
+          <div class="diagram-label">Two pathways vs. one flow with an invite step</div>
+          <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;font-family:'IBM Plex Mono',monospace;">
+            <text x="0" y="24" font-size="11" fill="#8A8F98" letter-spacing="1">BEFORE — TWO BESPOKE PATHWAYS</text>
+            <rect x="0" y="40" width="200" height="52" rx="6" fill="#FFFFFF" stroke="#E2E4E8"/>
+            <text x="100" y="70" font-size="12" fill="#14161A" text-anchor="middle">Sole flow</text>
+            <rect x="0" y="110" width="200" height="52" rx="6" fill="#FFFFFF" stroke="#E2E4E8"/>
+            <text x="100" y="140" font-size="12" fill="#14161A" text-anchor="middle">Joint flow (separate)</text>
+            <line x1="230" y1="103" x2="270" y2="103" stroke="#E2E4E8" stroke-width="1.5"/>
+            <text x="330" y="24" font-size="11" fill="#8A8F98" letter-spacing="1">AFTER — ONE FLOW, ONE INVITE STEP</text>
+            <rect x="330" y="60" width="200" height="52" rx="6" fill="#EDF1FA" stroke="#1F3A93"/>
+            <text x="430" y="90" font-size="12" fill="#1F3A93" text-anchor="middle" font-weight="600">Application (sole)</text>
+            <line x1="530" y1="86" x2="570" y2="86" stroke="#1F3A93" stroke-width="1.5"/>
+            <rect x="570" y="60" width="220" height="52" rx="6" fill="#FFFFFF" stroke="#E2E4E8"/>
+            <text x="680" y="82" font-size="12" fill="#14161A" text-anchor="middle">Add a co-applicant?</text>
+            <text x="680" y="98" font-size="10" fill="#8A8F98" text-anchor="middle">optional, one dedicated step</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">03 — Exploring trade-offs</span>
+      <h2 class="section-title">Three architectures, presented to leadership</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>I led exploration of three competing UX architectures for account-ownership configuration and presented the trade-offs directly to leadership, advocating for the direction I believed scaled best for multi-account applications.</p>
+        <ul class="case-list">
+          <li><strong>Radio button, asked once:</strong> simplest to build, but anchors the product to the old sole/joint framing and doesn't extend cleanly to future multi-account scenarios.</li>
+          <li><strong>Two bespoke pathways (status quo):</strong> the existing direction — duplicative to build and maintain, and reinforces the wrong mental model for both users and the team.</li>
+          <li><strong>Invite model (my proposal):</strong> sole stays the silent default; a dedicated, optional step handles the invite. Scales cleanly to householding and multi-account bundles the product team was already anticipating.</li>
+        </ul>
+        <p>Leadership ultimately selected a variant of the radio-button approach for the initial release — not because the invite model was wrong, but because research showed joint accounts benefit from an explicit, visible entry point, and leadership wanted a pattern that could extend to the public site in future, before a user even enters the application flow. I disagreed with the technical framing, but the reasoning was legitimate: reasonable people weighing the same trade-offs differently. I made the case, understood why the room landed where it did, and moved the work forward.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">04 — Alignment</span>
+      <h2 class="section-title">Holding the thread through two pivots</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>The account-ownership question didn't live in isolation — it sat inside a larger "single sales rail" unification effort spanning prospect, existing-client, and advisor-assisted flows. I sustained cross-functional alignment across product, engineering, legal, and platform teams through two major pivots in that broader initiative, making sure the account-ownership model stayed coherent even as the surrounding flows changed underneath it.</p>
+        <p>Beyond this project, I advocated for shared patterns and delivery norms with the broader design org, influencing how 20+ designers approached similar ambiguous, rules-heavy problems across the bank's other teams.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="case-section">
+    <div class="section-header">
+      <span class="section-number">05 — Reflection</span>
+      <h2 class="section-title">Being right about the model isn't the same as winning the room</h2>
+    </div>
+    <div class="section-body">
+      <div></div>
+      <div class="section-body-offset">
+        <p>The hardest part of this project wasn't the mental-model reframe itself — that came from just looking closely at what the flow actually did. It was building a case precise enough to survive a room full of stakeholders who each had a legitimate, different set of priorities, and then being able to let go of my own preferred answer once I understood theirs.</p>
+        <p>I'd still argue the invite model is the more scalable long-term direction, and I said so. But the version that shipped reflects real constraints I hadn't fully weighed going in — and the process of getting there taught me more about negotiating trade-offs at this scale than shipping my own idea unchallenged would have.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <span class="footer-note">© 2026 Aliza Markovitch</span>
+    <nav class="footer-nav">
+      <a href="league-console.html">Next project →</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,151 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="About Aliza - Product Designer with 6+ years of experience in creating user-centered digital products.">
-
-    <title>About - Aliza's Portfolio</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Aliza Markovitch</title>
+<meta name="description" content="Senior Product Designer, 7+ years — banking, healthcare, and large-scale marketplaces.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/site.css">
+<style>
+  .about-hero { padding: 72px 0 8px; }
+  .about-title {
+    font-family: 'Fraunces', serif; font-size: 44px; font-weight: 500;
+    letter-spacing: -1px; margin-bottom: 40px;
+  }
+  .about-layout { display: grid; grid-template-columns: 220px 1fr; gap: 48px; padding-bottom: 88px; }
+  .about-photo img { width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+  .about-body p { font-size: 16px; line-height: 1.8; margin-bottom: 22px; color: var(--mid); }
+  .about-body p strong { color: var(--black); }
+  .connect-block {
+    border-top: 1px solid var(--border); margin-top: 12px; padding-top: 32px;
+  }
+  .connect-block h2 {
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; margin-bottom: 12px;
+  }
+  @media (max-width: 700px) { .about-layout { grid-template-columns: 1fr; } .about-photo { max-width: 160px; } }
+</style>
 </head>
-
 <body>
-    <div class="layout">
-        <button class="hamburger-menu" aria-label="Toggle navigation menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
 
-        <aside class="sidebar">
-            <div class="corner-name">Aliza</div>
-            <div class="sidebar-content">
-                <div class="profile-container">
-                    <div class="profile-content">
-                        <div class="profile-intro">
-                            <div class="profile-image">
-                                <img src="assets/images/profile/profile.jpg" alt="Profile picture">
-                            </div>
-                            <p class="statement">
-                                Crafting stories through design,<br>solving complex problems.
-                            </p>
-                            <p class="subheading">
-                                Product Designer | 6+ Years Creating Seamless, Scalable UX. </p>
-                        </div>
-                    </div>
-                </div>
-                <nav class="navbar">
-                    <div class="nav-links">
-                        <a href="index.html">Work</a>
-                        <a href="about.html#main" class="about-link active">About</a>
-                    </div>
-                </nav>
-            </div>
-        </aside>
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-name">Aliza Markovitch</a>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="about.html">About</a>
+      <a href="resume.html">Résumé</a>
+      <a href="mailto:alizamarkovitch@gmail.com" class="nav-cta">Get in touch</a>
+    </div>
+  </div>
+</nav>
 
-        <main id="main" class="main-content">
-            <section class="about-section">
-                <div class="about-content">
-                    <h1 id="about-me">About Me</h1>
-                    <p>
-                        I'm a Product Designer with 6+ years of experience building
-                        human-centered solutions for enterprise and consumer-facing
-                        products. My design philosophy has always been rooted in
-                        thorough user research, rapid prototyping, and cross-functional
-                        collaboration, ensuring that each interface I craft resonates
-                        with real-world needs.
-                    </p>
-                    <p>
-                        Throughout my career, I've had the privilege of shaping the
-                        design strategy for major tech initiatives. At <strong>League</strong>,
-                        I improved customer support and operational efficiency by
-                        launching a Customer Support Portal—cutting resolution times
-                        by 35% and increasing user satisfaction by 20%. I also led the
-                        design of a No-Code Administrative Console that streamlined
-                        client workflows and boosted production efficiency by 40%.
-                    </p>
-                    <p>
-                        Previously at <strong>Accenture Song</strong>, I owned end-to-end
-                        design for high-profile iOS and web apps for brands like Tim Hortons
-                        and TD Bank. My work there involved transforming business objectives
-                        into engaging user journeys, leveraging design thinking and agile
-                        methodologies to deliver impactful results. Before that, I helped
-                        <strong>Delivery Hero</strong> revamp its restaurant order-processing
-                        app—lowering order failure rates by 26% and enhancing the experience
-                        for over 500,000 global restaurant partners.
-                    </p>
-                    <p>
-                        When I'm not refining user flows or iterating on prototypes,
-                        you'll likely find me immersed in horticulture and floral design.
-                        Spending time on small farms and creating bouquets keeps me grounded
-                        and reminds me of the patience and empathy needed to nurture great
-                        ideas. This hands-on passion for growth directly informs my approach
-                        to design: a belief that every product needs consistent care,
-                        attention, and a little creativity to truly flourish.
-                    </p>
+<div class="container">
+  <header class="about-hero">
+    <h1 class="about-title">About</h1>
+  </header>
 
-                    <h2>Let's Connect</h2>
-                    <p>
-                        I'm always excited to chat about product design challenges or how nature
-                        can spark fresh ideas. Connect with me on
-                        <a href="https://www.linkedin.com/in/alizam" target="_blank">LinkedIn</a>
-                        or take a peek at my
-                        <a href="https://www.instagram.com/alizaflowernova" target="_blank">floral Instagram</a>
-                        for a glimpse of my creative process.
-                    </p>
-                </div>
-            </section>
-        </main>
+  <div class="about-layout">
+    <div class="about-photo">
+      <img src="assets/images/profile/profile.jpg" alt="Aliza Markovitch">
     </div>
 
-    <script>
-        // Hamburger menu functionality
-        document.querySelector('.hamburger-menu').addEventListener('click', function () {
-            this.classList.toggle('active');
-            document.querySelector('.navbar').classList.toggle('active');
-        });
+    <div class="about-body">
+      <p>I'm a Senior Product Designer with 7+ years turning ambiguous, rules-heavy problems into clear direction — across banking, healthcare, and large-scale marketplaces. Research is where that direction actually comes from: I'm at my best when I can get close to how people really work — through field research, usability testing, or just watching where a workaround has quietly become the process — and use that to build the case for a better mental model, then negotiate the trade-offs across product, engineering, and leadership to get there.</p>
 
-        // Close menu when clicking a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.querySelector('.navbar').classList.remove('active');
-                document.querySelector('.hamburger-menu').classList.remove('active');
-            });
-        });
+      <p>At <strong>Royal Bank of Canada</strong>, I ramped independently across three teams in 18 months and led the design of bringing joint account opening online for the first time — previously, it could only be done in branch. That meant reframing the entire mental model of the acquisition flow: from one person opening one sole account, to introducing ownership type — sole or joint — into the flow itself. That work landed at the same time the bank was introducing multi-product account opening, so the flow had to account for both dimensions of complexity at once: it went from one person opening one account to multiple people opening multiple accounts. Research grounded the direction throughout — validating the ownership model against an existing, proven pattern already used in online banking, rather than introducing something untested. I explored three competing UX architectures for the combined problem, presented the trade-offs to leadership, and helped align product, engineering, legal, and platform teams through two major pivots as the surrounding flows changed underneath it.</p>
 
-        // Handle about link behavior based on screen size
-        const aboutLink = document.querySelector('.about-link');
-        if (aboutLink) {
-            aboutLink.addEventListener('click', (e) => {
-                // Only prevent anchor on desktop
-                if (window.innerWidth > 480) {
-                    e.preventDefault();
-                    window.location.href = 'about.html';
-                }
-            });
-        }
+      <p>At <strong>League</strong>, I led design of the Customer Support Portal, replacing a workaround where support agents logged directly into member accounts. Discovery research with agents surfaced what they actually needed versus what they'd improvised around a tool never built for them — closing a real privacy risk with a dedicated, secure interface for 30+ client teams. I also led League Console, an end-to-end configuration platform that removed engineering as a bottleneck for non-technical business users; usability testing across 9 users and 5 internal teams shaped the navigation model and reduced admin setup time by 40%.</p>
 
-        // If we arrived with a hash in the URL and we're on mobile, scroll to it
-        if (window.location.hash === '#about-me' && window.innerWidth <= 480) {
-            const aboutMeSection = document.getElementById('about-me');
-            if (aboutMeSection) {
-                aboutMeSection.scrollIntoView();
-            }
-        }
-    </script>
+      <p>At <strong>Accenture Song</strong>, I designed end-to-end iOS and web experiences for brands including Tim Hortons and TD Bank, translating business objectives into user journeys through research and iterative testing. Before that, at <strong>Delivery Hero</strong>, I led UX research and redesign of Go Delivery — including field research across 12 locations in Malaysia — for an order-management platform used by 500K+ restaurants worldwide, shipping a swimlane-based system preferred by 85% of users in field testing.</p>
+
+      <p>When I'm not refining user flows or iterating on prototypes, you'll likely find me immersed in horticulture and floral design. Spending time in community gardens and creating bouquets keeps me grounded and reminds me of the patience and empathy needed to nurture great ideas. This hands-on passion for growth directly informs my approach to design: a belief that every product needs consistent care, attention, and a little creativity to truly flourish.</p>
+
+      <div class="connect-block">
+        <h2>Let's connect</h2>
+        <p style="margin-bottom:0;">I'm always happy to talk through a design problem, a role, or where I could add value on your team. Reach me on <a href="https://www.linkedin.com/in/alizam/" style="color:var(--accent); font-weight:500;">LinkedIn</a> or by <a href="mailto:alizamarkovitch@gmail.com" style="color:var(--accent); font-weight:500;">email</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container footer-inner">
+    <span class="footer-note">© 2026 Aliza Markovitch</span>
+    <nav class="footer-nav">
+      <a href="index.html#work">Work</a>
+      <a href="mailto:alizamarkovitch@gmail.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+  <script src="js/main.js"></script>
 </body>
-
 </html>
